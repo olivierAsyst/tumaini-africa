@@ -1,0 +1,53 @@
+<div class="featured-podcast" data-podcast-id="{{ podcast.id }}">
+    <div class="flex flex-col gap-4 podcast-content">
+        <!-- Couverture du podcast -->
+        <div class="cover-container bg-cover bg-center rounded-xl bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/IMG-20250521-WA0122.jpg')]">
+            <div class="podcast-cover {{ podcast.coverGradient }}">
+                <div class="cover-overlay"></div>
+                <div class="play-button-container">
+                    <button class="play-button" data-action="play-pause" data-podcast-id="{{ podcast.id }}">
+                        <svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5,3 19,12 5,21"></polygon>
+                        </svg>
+                        <svg class="pause-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                </div>
+                <div class="shine-effect"></div>
+            </div>
+        </div>
+
+        <!-- Description du podcast -->
+        <div class="podcast-info">
+            <div class="podcast-text">
+                <h2 class="podcast-title">{{ podcast.title }}</h2>
+                {% if podcast.description %}
+                    <p class="podcast-description">{{ podcast.description }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Métadonnées -->
+            <div class="flex gap-2">
+                <div class="metadata-item">
+                    <span class="duration-badge">par Olivier Rukabo</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="duration-badge">{{ podcast.duration }} min</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="date-badge">Ajouté le {{ podcast.dateAdded|date('d F Y') }}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="category-badge">{{ podcast.category }}</span>
+                </div>
+            </div>
+
+            <!-- Bouton d'action -->
+            <div class="action-button-container">
+                <button class="add-playlist-button">Ajouter à ma playlist</button>
+            </div>
+        </div>
+    </div>
+</div

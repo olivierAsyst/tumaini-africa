@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TAN Media | Politique {% endblock %}
+
+{% block body %}
+<!-- Main Content -->
+<main class="py-4 bg-gray-50">
+    <div class="max-w-screen-xl lg:py-4 lg:pt-2 lg:px-3 mx-auto">
+        <!-- Featured Stories Section -->
+        <section class="mb-12">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Catégorie: POLITIQUE</h2>
+                <div class="w-16 h-1 bg-primary-600"></div>
+            </div>
+            
+            <!-- News Carousel -->
+            {% include 'catery_publi/components/carousel.html.twig' with {'items': lastNewsInCategory} %}
+        </section>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,604 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ controller_name }}{% endblock %}
+
+{% block body %}
+<section>
+  <div class="max-w-screen-xl lg:py-4 lg:pt-2 lg:px-3 mx-auto">
+    <div class="bg-gradient-to-br from-slate-700 via-orange-900 to-slate-900 rounded-2xl">
+        <div class="px-4 py-2">
+            <div class="flex flex-col podcast-showcase w-full">   
+              <div class="text-left py-2">
+                  <p class="text-2xl text-white font-bold">Nos derniers Podcast</p>
+              </div>
+                <!-- Podcast en vedette -->
+                  {% if podcasts|length > 0 %}
+                      {% include 'client_podcast/_featured_podcast.html.twig' with {'podcast': podcasts[0]} %}
+                  {% endif %}
+                  
+                  <!-- Podcasts secondaires -->
+                  {% if podcasts|length > 1 %}
+                      <div class="other-episodes">
+                          {% for podcast in podcasts[1:] %}
+                              {% include 'client_podcast/_small_podcast.html.twig' with {'podcast': podcast} %}
+                          {% endfor %}
+                      </div>
+                  {% endif %}
+            </div>
+        </div>
+        
+        <!-- Lecteur audio global -->
+        <div id="audio-player" class="audio-player hidden">
+            {% include 'client_podcast/_audio_player.html.twig' %}
+        </div>
+    </div>
+  </div>
+</sectio>
+</section>
+<section class="bg-gradient-to-r dark:bg-gray-900">
+    <div class="py-2 px-2 mx-auto max-w-screen-xl text-center lg:py-4 lg:px-3">
+      <div class="flex gap-5">
+        <div class="flex-2/2 p-2">
+          <div class="flex flex-col">
+            <div class="relative w-full overflow-hidden">
+              <div class="flex transition-transform duration-500 ease-in-out" style="transform: translateX(0%);" id="carousel-wrapper">
+                <div class="relative w-full flex-shrink-0">
+                  <img
+                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/content-gallery-3.png"
+                    alt="Article 1"
+                    class="w-full h-[550px] object-cover rounded-2xl"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Business
+                    </span>
+                    <h1 class="text-2xl font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Anna Lora Stuns In White At Her Australian Premiere
+                      </a>
+                    </h1>
+                    <p class="text-xs opacity-70 mt-1">par Alice cloe - Jun 19, 2020</p>
+                  </div>
+                </div>
+                <div class="relative w-full flex-shrink-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+                    alt="Article 2"
+                    class="w-full object-cover rounded-2xl h-[550px]"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Technology
+                    </span>
+                    <h2 class="text-2xl font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Exploring New Tech Innovations in 2025
+                      </a>
+                    </h2>
+                    <p class="text-xs opacity-70 mt-1">par John Doe - Apr 1, 2025</p>
+                  </div>
+                </div>
+                <div class="relative w-full flex-shrink-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
+                    alt="Article 3"
+                    class="w-full object-cover rounded-2xl h-[550px]"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Lifestyle
+                    </span>
+                    <h1 class="text-2xl font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Top 10 Travel Destinations This Summer
+                      </a>
+                    </h1>
+                    <p class="text-xs opacity-70 mt-1">par Jane Smith - May 15, 2025</p>
+                  </div>
+                </div>
+              </div>
+              <button id="prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 hover:bg-black text-white rounded-full p-2">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+                </svg>
+              </button>
+              <button id="next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 hover:bg-black text-white rounded-full p-2">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+            <div class="flex gap-5 items-start rounded-lg w-full h-fit p-4 bg-white shadow-lg mt-5">
+                  <div class="flex-1 flex flex-col items-start">
+                    <p class="text-indigo-950 text-4xl font-semibold">Dernières nouvelles</p>
+                    <div class="items pt-5">
+                      <a href="#" alt="#" class="">
+                        <div class="couverture mx-auto mb-4 w-full h-[200px] rounded-lg bg-cover bg-center bg-[url('/public/images/static/purusi.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
+                        </div>
+                        <h1 class="text-2xl text-start font-bold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
+                          Secretart for Economic Air plane that looks like
+                        </h1>
+                        <p class="text-left text-sm text-gray-600 mt-2 py-2">par Christia Matou - 1, Avr. 2025</p>
+                        </p>
+                      </a>
+                      <p class="text-left text-gray-700">
+                          Struggling to sell one multi-million dollar home currently on the market won't stop actress and singer Jennifer Lopez.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <div class="top flex justify-end">
+                      <ul class="flex gap-2 text-indigo-950 font-semibold">
+                        <li class="text-orange-700"><a href="#">Categorie 1</a></li>
+                        <li><a href="#">Polique</a></li>
+                        <li><a href="#">Actualités</a></li>
+                        <li><a href="#">Divertissement</a></li>
+                      </ul>
+                    </div>
+                    <div class="flex mt-8 flex-col gap-4">
+                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
+                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/1748270387694_copy_237x316.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
+                          </div>
+                          <div class="flex flex-col flex-2">
+                            <p class="text-xs text-violet-700 px-4 font-bold">POLITIQUE</p>
+                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
+                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
+                                  Lubumbashi : Quatre lionnes en cavale capturées sur la route Kasenga
+                                </h5>
+                                <div class="text-sm text-gray-500">19 Juin 2025</div>
+                            </h1></a>
+                          </div>
+                      </div>
+                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
+                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/IMG-20250522-WA0222.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
+                          </div>
+                          <div class="flex flex-col flex-2">
+                            <p class="text-xs text-violet-700 px-4 font-bold">POLITIQUE</p>
+                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
+                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
+                                  Alexis Gisaro lance les travaux du séminaire sur l'investissement ...                                </h5>
+                                <div class="text-sm text-gray-500">19 Juin 2025</div>
+                            </h1></a>
+                          </div>
+                      </div>
+                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
+                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/IMG-20250405-WA0048.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
+                          </div>
+                          <div class="flex flex-col flex-2">
+                            <p class="text-xs text-violet-700 px-4 font-bold">SOCIETE</p>
+                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
+                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
+                                  Un jeune homme tente de se suicider après une dispute conjugale
+                                </h5>
+                                <div class="text-sm text-gray-500">19 Juin 2025</div>
+                            </h1></a>
+                          </div>
+                      </div>
+                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
+                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2024/11/IMG-20241125-WA0105-1.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
+                          </div>
+                          <div class="flex flex-col flex-2">
+                            <p class="text-xs text-violet-700 px-4 font-bold">SPORT</p>
+                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
+                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
+                                  Linafoot ligue 2 Zone Est /B: Un dimanche riche en rebondissement et en révélation.
+                                </h5>
+                                <div class="text-sm text-gray-500">19 Juin 2025</div>
+                            </h1></a>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          <div class="relative w-full h-[133px] overflow-hidden my-5 rounded-lg bg-cover bg-center bg-[url('https://themewagon.github.io/news/assets/img/gallery/body_card1.png')] transition-transform duration-300 ease-in-out hover:scale-105">
+              <div class="w-full top-0">
+                <span class="inline-block bg-violet-800 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase">
+                      PUBLICITE
+                </span>
+                <div class="relative top-0 left-4 right-4 text-white">
+                  {# <h1 class="text-xle font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                    <a href="#">Vous Trouverez ici tout ce dont vous avez besoin pour votre garde-robe</a>
+                  </h1> #}
+                  <a href="">
+                    {# <span class="inline-block bg-red-500 hover:bg-orange-600 hover:text-white text-xs font-semibold px-1 py-1 rounded-xl mb-2 uppercase">
+                      MAISON D'HABILLEMENT MAMAN NYOTA</br>
+                      Cliquer ici pour nous contacter
+                    </span> #}
+                  </a>
+                </div>
+              </div>
+        </div>
+        </div>
+        <div class="w-[500px] flex flex-col gap-5 text-left">
+          <div class="second relative w-full flex-shrink-0 overflow-hidden inline-block">
+              <img
+                    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+                    alt="Article 2"
+                    class="w-full h-64 object-cover rounded-2xl transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-2xl"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent hover:rounded-xl"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Technology
+                    </span>
+                    <h2 class="text-sm font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Exploring New Tech Innovations in 2025
+                      </a>
+                    </h2>
+                    <p class="text-xs opacity-70 mt-1">par John Doe - Apr 1, 2025</p>
+                  </div>
+          </div>
+          <div class="troisieme relative w-full flex-shrink-0">
+              <img
+                    src="images/static/purusi.jpg"
+                    alt="Article 2"
+                    class="w-full h-64 object-cover rounded-2xl"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Technology
+                    </span>
+                    <h2 class="text-sm font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi
+                      </a>
+                    </h2>
+                    <p class="text-xs opacity-70 mt-1">par John Doe - Apr 1, 2025</p>
+                  </div>
+          </div>
+
+          <div class="viewed text-left bg-white shadow-lg rounded-lg p-4">
+            <div class="title">
+              <h2 class="text-xl font-semibold text-indigo-950 mb-4">Articles les plus visionnés</h2>
+            </div>
+            <div class="relative w-full flex-shrink-0">
+              <img
+                    src="images/static/purusi.jpg"
+                    alt="Article 2"
+                    class="w-full h-80 object-cover rounded-2xl"
+                  />
+                  <div class="rounded-xl absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span class="inline-block bg-red-600 text-xs font-semibold px-3 py-1 rounded-xl mb-2 uppercase">
+                      Technology
+                    </span>
+                    <h2 class="text-sm font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
+                      <a href="#">
+                        Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi
+                      </a>
+                    </h2>
+                    <p class="text-xs opacity-70 mt-1">par John Doe - Apr 1, 2025</p>
+                  </div>
+            </div>
+            <div class="viewd-less pt-6">
+              <div>
+                <div class="flex flex-col gap-4">
+                <div class="flex items">
+                    <img src="images/static/gadi.jpg" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
+                        <a href="#">Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi</a>
+                      </h3>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-gray-600">par Alice - Jun 19, 2025</p>
+                        <p class="text-xs text-gray-600">1.5K Vues</p>
+                      </div>
+                    </div>
+                </div>
+                <div class="flex items">
+                    <img src="images/static/purusi.jpg" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
+                        <a href="#">Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi</a>
+                      </h3>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-gray-600">par Alice - Jun 19, 2025</p>
+                        <p class="text-xs text-gray-600">1.5K Vues</p>
+                      </div>
+                    </div>
+                </div>
+                <div class="flex items">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
+                        <a href="#">Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi</a>
+                      </h3>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-gray-600">par Alice - Jun 19, 2025</p>
+                        <p class="text-xs text-gray-600">1.5K Vues</p>
+                      </div>
+                    </div>
+                </div>
+                <div class="flex items">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
+                        <a href="#">Uvira : la SOCINE appelle à un accueil chaleureux pour le gouverneur Jean-Jacques Purusi</a>
+                      </h3>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-gray-600">par Alice - Jun 19, 2025</p>
+                        <p class="text-xs text-gray-600">1.5K Vues</p>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<section class="bg-gradient-to-r dark:bg-gray-900 p-5">
+    <div class="flex text-left gap-5 max-w-screen-xl lg:py-8 lg:pt-2 lg:px-3 mx-auto">
+      <div class="flex-1 rounded-2xl">
+        <img src="https://themewagon.github.io/news/assets/img/gallery/body_card2.png" alt="" srcset="">
+      </div>
+      <div class="flex-2 bg-white rounded-xl">
+        <div class="max-w-5xl mx-auto overflow-auto">
+          <h4 class="text-xl font-bold p-4 text-">Les plus visités cette semaine</h4>
+          <div class="relative">
+            <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow hover:bg-gray-300 z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow hover:bg-gray-300 z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+            <div id="carousel" class="flex space-x-6 overflow-hidden scroll-smooth scrollbar-hide px-5">
+              <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
+                <img src="https://themewagon.github.io/news/assets/img/gallery/weeklyNews2.png" alt="Article 1" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">Scarlett's disappointment at latest accolade</h5>
+                  <p class="text-sm text-gray-500">800 Vues</p>
+                </div>
+              </article>
+              <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
+                <img src="https://themewagon.github.io/news/assets/img/gallery/weeklyNews3.png" alt="Article 2" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">Scarlett's disappointment at latest accolade</h5>
+                  <p class="text-sm text-gray-500">1.5K Vues</p>
+                </div>
+              </article>
+              <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
+                <img src="https://themewagon.github.io/news/assets/img/gallery/weeklyNews1.png" alt="Article 3" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">Scarlett's disappointment at latest accolade</h5>
+                  <p class="text-sm text-gray-500">1.5K Vues</p>
+                </div>
+              </article>
+              <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
+                <img src="https://themewagon.github.io/news/assets/img/gallery/weeklyNews3.png" alt="Article 4" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">Scarlett's disappointment at latest accolade</h5>
+                  <p class="text-sm text-gray-500">2.1K Vues</p>
+                </div>
+              </article>
+              <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
+                <img src="https://themewagon.github.io/news/assets/img/gallery/weeklyNews3.png" alt="Article 4" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">Scarlett's disappointment at latest accolade</h5>
+                  <p class="text-sm text-gray-500">1.5K Vues</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{# <div class="weekly3-news-area py-20 bg-gray-50" id="news-carousel">
+    <div class="container mx-auto px-4">
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Actualités Récentes</h2>
+        </div>
+        
+        <div class="carousel-container overflow-hidden">
+            <div class="carousel-track flex transition-transform duration-700" style="transform: translateX(0%)">
+                {% for news in newsItems %}
+                    <div class="carousel-slide w-1/4 flex-shrink-0 px-3">
+                        <div class="weekly3-single group cursor-pointer">
+                            <div class="weekly3-img overflow-hidden rounded-lg mb-4">
+                                <img src="{{ news.image }}" 
+                                    alt="{{ news.title }}"
+                                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="weekly3-caption">
+                                <h4 class="mb-2">
+                                    <a href="{{ news.link }}" 
+                                    class="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300">
+                                        {{ news.title }}
+                                    </a>
+                                </h4>
+                                <p class="text-gray-500 text-sm">{{ news.date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <button class="carousel-prev absolute left-2 top-1/2">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+          </svg>
+        </button>
+        <button class="carousel-next absolute right-2 top-1/2">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+          </svg>
+        </button>
+        
+        <!-- Dots -->
+        <div class="carousel-dots flex justify-center mt-6"></div>
+    </div>
+</div> #}
+    {# </div>
+</section> #}
+{% endblock %}
+{% block js %}
+<script>
+  const wrapper = document.getElementById('carousel-wrapper');
+  const slides = wrapper.children;
+  const totalSlides = slides.length;
+  let index = 0;
+
+  function showSlide(i) {
+    wrapper.style.transform = `translateX(-${i * 100}%)`;
+
+    // Animation texte : enlever puis remettre la classe d'animation pour relancer l'effet
+    for (let slide of slides) {
+      const textDiv = slide.querySelector('.slide-text');
+      textDiv.classList.remove('animate-fade-slide-up');
+      // Forcer reflow pour reset animation
+      void textDiv.offsetWidth;
+    }
+    // Ajouter la classe sur la slide active
+    const activeText = slides[i].querySelector('.slide-text');
+    activeText.classList.add('animate-fade-slide-up');
+  }
+
+  // Manually go to next slide
+  document.getElementById('next').addEventListener('click', () => {
+    index = (index + 1) % totalSlides;
+    showSlide(index);
+  });
+
+  // Manually go to prev slide
+  document.getElementById('prev').addEventListener('click', () => {
+    index = (index - 1 + totalSlides) % totalSlides;
+    showSlide(index);
+  });
+
+  // Autoplay every 3 seconds (3000 ms)
+  setInterval(() => {
+    index = (index + 1) % totalSlides;
+    showSlide(index);
+  }, 5000);
+
+  // Initial animation on first slide
+  showSlide(0);
+</script>
+<script>
+  const carousel = document.getElementById('carousel');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  const scrollAmount = 245 + 24; // largeur article + espace
+
+  prevBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+
+  // Auto-scroll infini (boucle)
+  let autoScrollInterval = setInterval(() => {
+    if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) {
+      carousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }, 4000);
+
+  // Pause auto-scroll au hover
+  carousel.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
+  carousel.addEventListener('mouseleave', () => {
+    autoScrollInterval = setInterval(() => {
+      if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }, 4000);
+  });
+</script>
+
+<script>
+  (() => {
+    const carousel = document.getElementById('carouselpoint');
+    const dotsContainer = document.getElementById('dots');
+    const items = carousel.querySelectorAll('.weekly3-single');
+    const itemWidth = items[0].offsetWidth + parseInt(getComputedStyle(carousel).gap || 0);
+    let currentIndex = 0;
+
+    // Création dynamique des dots avec ID uniques
+    items.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = "button";
+      dot.id = `carousel-dot-${i}`;
+      dot.setAttribute('aria-label', `Slide ${i + 1}`);
+      dot.className = `
+        w-3 h-3 rounded-full bg-gray-400 transition-all duration-300
+        hover:bg-green-600
+        focus:outline-none
+      `;
+      dotsContainer.appendChild(dot);
+
+      // Clic sur dot : scroll vers l'item correspondant
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        scrollToIndex(currentIndex);
+        updateDots();
+      });
+    });
+
+    const dots = dotsContainer.querySelectorAll('button');
+
+    function updateDots() {
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.remove('w-3', 'h-3', 'rounded-full', 'bg-gray-400');
+          dot.classList.add('w-8', 'h-3', 'rounded-full', 'bg-green-600'); // point plus large horizontalement
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-gray-400');
+          dot.classList.remove('w-8', 'h-3', 'bg-green-600');
+          dot.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function scrollToIndex(index) {
+      carousel.scrollTo({
+        left: itemWidth * index,
+        behavior: 'smooth'
+      });
+    }
+
+    // Mise à jour auto des dots au scroll manuel
+    let scrollTimeout;
+    carousel.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const scrollLeft = carousel.scrollLeft;
+        currentIndex = Math.round(scrollLeft / itemWidth);
+        updateDots();
+      }, 100);
+    });
+
+    // Initialisation
+    updateDots();
+  })();
+</script>
+<script>
+  // Exemple simple pour contrôler que seul un audio joue à la fois
+  const audios = document.querySelectorAll('audio');
+  audios.forEach(audio => {
+    audio.addEventListener('play', () => {
+      audios.forEach(otherAudio => {
+        if(otherAudio !== audio){
+          otherAudio.pause();
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
