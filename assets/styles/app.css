@@ -5,16 +5,13 @@
 @import "./footer.css";
 @import "./public-category.css";
 @import "./single-article.css";
-@import url('https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap'); */
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 body {
-    /* font-family: 'Source Serif Pro', serif, 'Inter', sans-serif; */
-    font-family: 'Noticia Text', serif;
-    /* Ajoute d'autres propriétés ici si nécessaire, par exemple : */
-    line-height: 1.6; /* Exemple de ligne de hauteur pour la lisibilité */
-    font-size: 16px;
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }
   /*  horizontale */
 .no-scrollbar {

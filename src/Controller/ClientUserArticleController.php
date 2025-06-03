@@ -14,16 +14,27 @@ final class ClientUserArticleController extends AbstractController
         // Données utilisateur
         $user = [
             'avatar' => 'https://randomuser.me/api/portraits/men/32.jpg',
-            'firstName' => 'Jean',
-            'lastName' => 'Dupont',
-            'bio' => 'Développeur web passionné par Symfony et les nouvelles technologies. J\'aime partager mes connaissances à travers mes articles.'
+            'firstName' => 'Alexandre',
+            'lastName' => 'Martin',
+            'bio' => 'Développeur Symfony senior avec 8 ans d\'expérience. Passionné par les bonnes pratiques, les tests et l\'architecture propre.',
+            'location' => 'Paris, France',
+            'website' => 'alexmartin-dev.com',
+            'social' => [
+                'twitter' => '@alex_martin',
+                'github' => 'alexmartin-dev'
+            ],
+            'stats' => [
+                'articles' => 24,
+                'followers' => 156,
+                'following' => 42
+            ]
         ];
 
-        // Génération des articles statiques
+        // Génération des articles
         $allArticles = $this->generateArticles();
-
+        
         // Pagination
-        $articlesPerPage = 5;
+        $articlesPerPage = 6;
         $totalArticles = count($allArticles);
         $totalPages = ceil($totalArticles / $articlesPerPage);
         $paginatedArticles = array_slice($allArticles, ($page - 1) * $articlesPerPage, $articlesPerPage);
@@ -40,39 +51,42 @@ final class ClientUserArticleController extends AbstractController
     {
         $articles = [];
         $titles = [
-            'Les meilleures pratiques Symfony 7',
-            'Tailwind CSS avec Symfony',
-            'Docker pour les développeurs PHP',
-            'Les nouveautés de PHP 8.3',
-            'Optimiser les performances Symfony',
-            'Créer des APIs REST avec Symfony',
-            'Les design patterns en PHP',
-            'Sécurité web: les bases à connaître',
-            'Tests unitaires avec PHPUnit',
-            'Migration de Symfony 6 à 7'
+            'Les meilleures pratiques Symfony 7 en 2024',
+            'Comment migrer de Symfony 6 à 7 sans stress',
+            'Tailwind CSS: le guide complet pour Symfony',
+            'Dockeriser une application Symfony professionnelle',
+            'Les nouveautés de PHP 8.3 pour les développeurs Symfony',
+            'Créer des APIs REST robustes avec API Platform',
+            'Les design patterns indispensables en PHP',
+            'Sécurité web: protéger son application Symfony',
+            'Tests unitaires avancés avec PHPUnit',
+            'Performance: optimiser son application Symfony',
+            'Les bundles Symfony à connaître en 2024',
+            'Déploiement continu avec GitHub Actions',
+            'Event Sourcing avec Symfony',
+            'Domain Driven Design: mise en pratique',
+            'Les erreurs courantes à éviter avec Doctrine'
         ];
 
-        $images = [
-            'https://source.unsplash.com/random/400x300/?symfony',
-            'https://source.unsplash.com/random/400x300/?programming',
-            'https://source.unsplash.com/random/400x300/?docker',
-            'https://source.unsplash.com/random/400x300/?php',
-            'https://source.unsplash.com/random/400x300/?performance',
-            'https://source.unsplash.com/random/400x300/?api',
-            'https://source.unsplash.com/random/400x300/?design',
-            'https://source.unsplash.com/random/400x300/?security',
-            'https://source.unsplash.com/random/400x300/?test',
-            'https://source.unsplash.com/random/400x300/?upgrade'
+        $categories = [
+            'Symfony', 'PHP', 'Docker', 'Performance', 'Sécurité', 
+            'Tests', 'Architecture', 'Frontend', 'DevOps'
         ];
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $articles[] = [
                 'title' => $titles[$i],
-                'image' => $images[$i],
-                'date' => new \DateTime('-' . $i . ' days'),
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.'
+                'image' => 'https://source.unsplash.com/random/600x400/?programming,'.$i,
+                'date' => new \DateTime('-' . rand(0, 365) . ' days'),
+                'excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...',
+                'category' => $categories[array_rand($categories)],
+                'readTime' => rand(3, 15) . ' min read',
+                'likes' => rand(5, 150)
             ];
         }
+
+        // Tri par date
+        usort($articles, fn($a, $b) => $b['date'] <=> $a['date']);
 
         return $articles;
     }
