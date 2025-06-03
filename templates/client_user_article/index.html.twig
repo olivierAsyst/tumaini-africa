@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les articles de {{ user.firstName ~ " " ~ user.lastName  }}{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-amber-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Profil utilisateur -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="md:flex">
+                <div class="md:w-1/4 p-6 flex justify-center">
+                    <img src="{{ user.avatar }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-amber-500">
+                </div>
+                <div class="md:w-3/4 p-6">
+                    <h1 class="text-3xl font-bold text-amber-800 mb-2">{{ user.firstName }} {{ user.lastName }}</h1>
+                    <p class="text-gray-600 mb-4">{{ user.bio }}</p>
+                    <div class="flex space-x-4">
+                        <span class="px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium">12 Articles</span>
+                        <span class="px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium">3 Abonnés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des articles -->
+        <h2 class="text-2xl font-bold text-amber-800 mb-6">Mes articles</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% for article in articles %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <img src="{{ article.image }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-amber-600 mb-2">{{ article.date|date('d/m/Y') }}</div>
+                        <h3 class="text-xl font-bold text-amber-800 mb-2">{{ article.title }}</h3>
+                        <p class="text-gray-600 mb-4">{{ article.description|slice(0, 100) }}...</p>
+                        <a href="#" class="text-amber-600 hover:text-amber-800 font-medium">Lire la suite →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+<!-- Pagination -->
+<div class="flex justify-center">
+    <nav class="inline-flex rounded-md shadow">
+        {% if currentPage > 1 %}
+            <a href="{{ path('user_profile', {'page': currentPage - 1}) }}" 
+               class="px-4 py-2 rounded-l-md border border-amber-300 bg-white text-amber-800 hover:bg-amber-50">
+                Précédent
+            </a>
+        {% endif %}
+        
+        {% for i in 1..totalPages %}
+            {# <a href="{{ path('user_profile', {'page': i}) }}"  #}
+            <a href="#" 
+               class="px-4 py-2 border-t border-b border-amber-300 {% if i == currentPage %}bg-amber-500 text-white{% else %}bg-white text-amber-800 hover:bg-amber-50{% endif %}">
+                {{ i }}
+            </a>
+        {% endfor %}
+        
+        {% if currentPage < totalPages %}
+            <a href="#" 
+            {# <a href="{{ path('user_profile', {'page': currentPage + 1}) }}"  #}
+               class="px-4 py-2 rounded-r-md border border-amber-300 bg-white text-amber-800 hover:bg-amber-50">
+                Suivant
+            </a>
+        {% endif %}
+    </nav>
+</div>
+    </div>
+</div>
+{% endblock %}
