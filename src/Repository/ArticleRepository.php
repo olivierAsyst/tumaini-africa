@@ -16,6 +16,31 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    /**
+     * Récupère les 3 derniers articles urgents
+     * 
+     * @return Article[]
+     */
+    public function findThreeLatestUrgent(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.isUrgent = :isUrgent')
+            ->setParameter('isUrgent', true)
+            ->orderBy('a.publishedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneBySlug(string $slug): ?Article
+    {
+    return $this->createQueryBuilder('a')
+        ->where('a.slug = :slug')
+        ->setParameter('slug', $slug)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */

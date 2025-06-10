@@ -2,15 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(ArticleRepository $articleRepo, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+        $last_urgent_articles = $articleRepo->findThreeLatestUrgent();
         $podcasts = [
             [
                 'id' => '1',
@@ -90,6 +95,7 @@ final class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'Acceuil !',
+            'urgents' => $last_urgent_articles,
             'podcasts' => $podcasts,
             'newsItems' => $newsItems
         ]);

@@ -2,15 +2,22 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class SingleArticlePublicController extends AbstractController
 {
-    #[Route('/article/public', name: 'app_single_article_public')]
-    public function index(): Response
+    #[Route('/article/{slug}', name: 'app_single_article_public', requirements: ['slug' => '[a-z0-9\-]+'])]
+    public function index(String $slug, ArticleRepository $articleRepository): Response
     {
+        $art = $articleRepository->findOneBySlug($slug);
+
+        if(!$art){
+            throw $this->createNotFoundException("L'article demandé n'existe pas");
+        }
+
         $article = [
             'title' => 'Le PSG champion d\'Europe : comment assister aux célébrations du titre ce dimanche',
             'subtitle' => 'Les supporters parisiens pourront célébrer le premier titre européen de l\'histoire du club lors d\'une grande fête organisée place de la République',
@@ -84,9 +91,14 @@ final class SingleArticlePublicController extends AbstractController
             ]
         ];
 
-        return $this->render('single_article_public/index.html.twig', [
-            'article' => $article,
+        $response = $this->render('single_article_public/index.html.twig', [
+            'article' => $art,
             'controller_name' => 'SingleArticlePublicController'
         ]);
+        $response->setPublic();
+        $response->setMaxAge(3600);
+
+        return $response;
+        
     }
 }
