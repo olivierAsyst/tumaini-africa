@@ -67,6 +67,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $isUrgent = null;
 
+    #[ORM\Column]
+    private ?int $viewCount = 0;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -259,6 +262,24 @@ class Article
     public function setIsUrgent(?bool $isUrgent): static
     {
         $this->isUrgent = $isUrgent;
+
+        return $this;
+    }
+
+    public function getViewCount(): ?int
+    {
+        return $this->viewCount;
+    }
+
+    public function incrementCount(): self
+    {
+        $this->viewCount++;
+        return $this;
+    }
+
+    public function setViewCount(int $viewCount): static
+    {
+        $this->viewCount = $viewCount;
 
         return $this;
     }

@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -13,9 +13,30 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ArticleRepository $articleRepo, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function index(ArticleRepository $articleRepo, 
+        CategoryRepository $categoryRepository,
+        Request $request, 
+        SluggerInterface $slugger): Response
     {
         $last_urgent_articles = $articleRepo->findThreeLatestUrgent();
+        $categoriesResult = $categoryRepository->findTopCategoriesWithMostArticles(5);
+        $categories = array_map(function($item){
+            return $item[0];
+        }, $categoriesResult);
+        $selectedCategorySlug = $request->query->get('category');
+        $selectedCategory = $selectedCategorySlug 
+            ? $categoryRepository->findOneBy(['slug' => $selectedCategorySlug])
+            : ($categories[0] ?? null);
+        
+        $categoryArticles = [];
+        if($selectedCategory){
+            $categoryArticles = $articleRepo->findBy(
+                ['category' => $selectedCategory, 'isPublished' => true],
+                ['publishedAt' => 'DESC'],
+                4
+            );
+        }
+
         $podcasts = [
             [
                 'id' => '1',
@@ -91,13 +112,26 @@ final class HomeController extends AbstractController
                 'link' => '/article/1'
             ],
         ];
-        
 
+        $mostViewed = $articleRepo->findMostViewedArticles();
+        $trending = $articleRepo->findMostViewedArticles(10);
+        $firstViewed = $mostViewed[0];
+        // $trending = $articleRepo->findTrendingArticles();
+        $nonUrgentLastThree = $articleRepo->findThreeLatestNonUrgentArticles();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'Acceuil !',
+            'lastFirst' => $nonUrgentLastThree[0] ?? null,
+            'lastSecond' => $nonUrgentLastThree[1] ?? null,
+            'lastThird' => $nonUrgentLastThree[2] ?? null,
             'urgents' => $last_urgent_articles,
+            'categories' => $categories,
+            'selected_category' => $selectedCategory,
+            'category_articles' => $categoryArticles,
             'podcasts' => $podcasts,
-            'newsItems' => $newsItems
+            'newsItems' => $newsItems,
+            'first_viewed' => $firstViewed,
+            'most_viewed' => $mostViewed,
+            'trending' => $trending
         ]);
     }
 

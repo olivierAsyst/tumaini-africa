@@ -3,21 +3,21 @@
 {% block title %}{{ article.title }}{% endblock %}
 {% block meta %}
     {{ parent() }}
-    <meta name="description" content="{{ article.content|striptags|u.truncate(160, '...') }}">
+    {# <meta name="description" content="{{ article.content|striptags|u.truncate(160, '...') }}"> #}
     
     {# Open Graph / Facebook #}
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ app.request.uri }}">
     <meta property="og:title" content="{{ article.title }}">
-    <meta property="og:description" content="{{ article.content|striptags|u.truncate(160, '...') }}">
-    {% if article.image %}
+    {# <meta property="og:description" content="{{ article.content|striptags|u.truncate(160, '...') }}"> #}
+    {% if article.imageUrl %}
     <meta property="og:image" content="{{ absolute_url(asset('uploads/articles/' ~ article.imageUrl)) }}">
     {% endif %}
     
     {# Twitter Card #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ article.title }}">
-    <meta name="twitter:description" content="{{ article.content|striptags|u.truncate(160, '...') }}">
+    {# <meta name="twitter:description" content="{{ article.content|striptags|u.truncate(160, '...') }}"> #}
 {% endblock %}
 {% block body %}
 <div class="fade-in">
@@ -164,32 +164,36 @@
     </article>
 
     <!-- Related Articles -->
-    {# <section class="bg-gray-50 py-12 mt-16">
+    <section class="bg-gray-50 py-12 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl font-serif font-bold text-gray-900 mb-8 slide-in-left">Articles liés</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {% for relatedArticle in article.relatedArticles %}
+                {% for relatedArticle in relatedArticles %}
                     <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 slide-in-up" 
                              style="animation-delay: {{ loop.index0 * 0.1 }}s">
                         <div class="aspect-w-16 aspect-h-9">
-                            <img src="{{ relatedArticle.image }}" 
+                            <img src="{{ relatedArticle.imageUrl }}" 
                                  alt="{{ relatedArticle.title }}" 
                                  class="w-full h-48 object-cover">
                         </div>
                         <div class="p-6">
                             <h4 class="font-serif font-semibold text-gray-900 mb-2 hover:text-leparisien-red transition-colors">
-                                <a href="{{ relatedArticle.url }}">{{ relatedArticle.title }}</a>
+                                <a href="#">{{ relatedArticle.title }}</a>
                             </h4>
                             <div class="flex items-center text-sm text-gray-600">
                                 <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                                <span>Il y a 2h</span>
+                                <span>
+                                    <time datetime="{{ relatedArticle.publishedAt|date('c') }}">
+                                        {{ relatedArticle.publishedAt|date('d/m/Y à H:i') }}
+                                    </time>
+                                </span>
                             </div>
                         </div>
                     </article>
                 {% endfor %}
             </div>
         </div>
-    </section> #}
+    </section>
 
 </div>
 {% endblock %}

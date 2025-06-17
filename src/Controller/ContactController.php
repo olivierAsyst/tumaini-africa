@@ -12,12 +12,12 @@ final class ContactController extends AbstractController
     public function index(): Response
     {
         $contactInfo = [
-            'email' => 'contact@dev-community.com',
-            'phone' => '+33 1 23 45 67 89',
-            'address' => '12 Rue du Développement, 75015 Paris, France',
+            'email' => 'tumainiafricanews@gmail.com',
+            'phone' => '+243 999 644 524',
+            'address' => 'Q. Mulongwe Uvira, RDC',
             'social' => [
                 'twitter' => 'https://twitter.com/dev_community',
-                'github' => 'https://github.com/dev-community',
+                'facebook' => 'https://github.com/dev-community',
                 'linkedin' => 'https://linkedin.com/company/dev-community'
             ],
             'hours' => [

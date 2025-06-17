@@ -3,8 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Article>
@@ -40,6 +45,108 @@ class ArticleRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult();
     }
+
+    public function findRelatedArticles(int $currentArticleId, ?Category $category = null, int $limit = 3): array
+    {
+        if ($category !== null) {
+        $categoryArticles = $this->createQueryBuilder('a')
+            ->where('a.id != :currentId')
+            ->andWhere('a.isPublished = true')
+            ->andWhere('a.category = :category')
+            ->setParameter('currentId', $currentArticleId)
+            ->setParameter('category', $category)
+            ->orderBy('a.publishedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+            if (count($categoryArticles) >= $limit) {
+                return $categoryArticles;
+            }
+        }
+        $qb = $this->createQueryBuilder('a')
+        ->where('a.id != :currentId')
+        ->andWhere('a.isPublished = true')
+        ->setParameter('currentId', $currentArticleId)
+        ->orderBy('a.publishedAt', 'DESC')
+        ->setMaxResults($limit);
+        
+        if ($category !== null) {
+            $qb->andWhere('a.category != :category OR a.category IS NULL')
+                ->setParameter('category', $category);
+        }
+
+    $otherArticles = $qb->getQuery()->getResult();
+
+    // Fusionner les résultats si on avait déjà des articles de la même catégorie
+    return $category !== null && !empty($categoryArticles) 
+        ? array_merge($categoryArticles, $otherArticles)
+        : $otherArticles;
+    }
+
+    public function findThreeLatestNonUrgentArticles(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.isPublished = true')
+            ->andWhere('a.isUrgent = false OR a.isUrgent IS NULL')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findArticlesByCategorySlug(string $slug, int $limit = null): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.category', 'c')
+            ->where('c.slug = :slug')
+            ->andWhere('a.isPublished = true')
+            ->setParameter('slug', $slug)
+            ->orderBy('a.publishedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+public function getPaginatedArticles(string $slug, PaginatorInterface $paginator, Request $request, int $limit = 5): PaginationInterface
+{
+    $query = $this->createQueryBuilder('a')
+        ->join('a.category', 'c')
+        ->where('c.slug = :slug')
+        ->andWhere('a.isPublished = true')
+        ->setParameter('slug', $slug)
+        ->orderBy('a.publishedAt', 'DESC')
+        ->getQuery();
+
+    return $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1),
+        $limit
+    );
+}
+
+public function findMostViewedArticles(int $limit = 5): array
+{
+    return $this->createQueryBuilder('a')
+        ->where('a.isPublished = true')
+        ->orderBy('a.viewCount', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
+
+public function findTrendingArticles(int $limit = 10): array
+{
+    return $this->createQueryBuilder('a')
+        ->where('a.isPublished = true')
+        ->andWhere('a.publishedAt >= :date')
+        ->setParameter('date', new DateTime('-1 week'))
+        ->orderBy('a.viewCount', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

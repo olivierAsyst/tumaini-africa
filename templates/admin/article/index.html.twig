@@ -77,7 +77,11 @@
                               <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ article.category.name }}</span>
                           </td>
                           <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {% if article.publishedAt is defined %}
+                              <span class="bg-gray-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-400 border border-gray-500">Publié</span>
+                          {% else %}
                               <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-400 border border-gray-500">Brouillon</span>
+                          {% endif %}
                           </td>
                           <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ article.publishedAt ? article.publishedAt|date('Y-m-d') : '' }}</td>
                           <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}</td>

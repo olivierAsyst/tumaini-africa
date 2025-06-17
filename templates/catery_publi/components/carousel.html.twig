@@ -4,12 +4,12 @@
     <div class="relative h-[400px] md:h-[500px] lg:h-[550px] overflow-hidden rounded-lg shadow-xl bg-white">
         <!-- Carousel Track -->
         <div class="carousel-track flex transition-transform duration-500 ease-in-out h-full" id="carouselTrack">
-            {% for item in items %}
+            {% for article in latestArticles %}
             <div class="carousel-slide min-w-full h-full relative {{ loop.first ? 'active' : '' }}" data-slide="{{ loop.index0 }}">
                 <!-- Image Container -->
                 <div class="absolute inset-0 md:w-2/3 lg:w-3/5">
-                    <img src="{{ item.image }}" 
-                         alt="{{ item.title }}" 
+                    <img src="{{ article.imageUrl }}" 
+                         alt="{{ article.title }}" 
                          class="w-full h-full object-cover">
                     <!-- Gradient Overlay for mobile -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
@@ -20,31 +20,26 @@
                     <div class="p-6 md:p-8 lg:p-10 w-full">
                         <!-- Category Badge -->
                         <div class="mb-4">
-                            {% set categoryColors = {
+                            {# {% set categoryColors = {
                                 'Politics': 'bg-blue-600',
                                 'Technology': 'bg-purple-600',
                                 'Environment': 'bg-green-600',
                                 'Science': 'bg-indigo-600',
                                 'Education': 'bg-orange-600'
-                            } %}
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white {{ categoryColors[item.category] ?? 'bg-gray-600' }}">
-                                {{ item.category|upper }}
+                            } %} #}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-yellow-700 text-white">
+                                {{ article.category.name }}
                             </span>
                         </div>
                         
                         <!-- Title -->
                         <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 leading-tight">
-                            {{ item.title }}
+                            <a class="hover:text-orange-500" href="{{ path('app_single_article_public', {'slug': article.slug}) }}" alt="{{ article.title }}">{{ article.title }}</a>
                         </h3>
-                        
-                        <!-- Subtitle -->
-                        <p class="text-sm md:text-base text-gray-600 mb-4 leading-relaxed">
-                            {{ item.subtitle }}
-                        </p>
                         
                         <!-- Content -->
                         <p class="text-sm text-gray-500 mb-6 line-clamp-3 hidden md:block">
-                            {{ item.content }}
+                            {{ article.content | slice(0, 150) | raw }} ...
                         </p>
                         
                         <!-- Meta Information -->
@@ -52,23 +47,23 @@
                             <div class="flex items-center text-xs text-gray-500 space-x-4">
                                 <span class="flex items-center">
                                     <i class="far fa-user mr-1"></i>
-                                    {{ item.author }}
+                                    {{ article.author.firstname }}
                                 </span>
                                 <span class="flex items-center">
                                     <i class="far fa-clock mr-1"></i>
-                                    {{ item.readTime }}
+                                    {# {{ item.readTime }} #} 3 min
                                 </span>
                                 <span class="flex items-center">
                                     <i class="far fa-calendar mr-1"></i>
-                                    {{ item.date|date('M d, Y') }}
+                                    {{ article.publishedAt|date('M d, Y') }}
                                 </span>
                             </div>
                         </div>
                         
                         <!-- Read More Button -->
-                        <a href="{{ item.link }}" 
+                        <a href="#" 
                            class="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded hover:bg-primary-700 transition-colors group">
-                            Read Full Story
+                            Voir plus
                             <i class="fas fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
@@ -76,10 +71,10 @@
                 
                 <!-- Mobile Content Overlay -->
                 <div class="absolute bottom-0 left-0 right-0 p-6 text-white md:hidden">
-                    <h3 class="text-lg font-bold mb-2 leading-tight">{{ item.title }}</h3>
+                    <h3 class="text-lg font-bold mb-2 leading-tight">{{ article.title }}</h3>
                     <div class="flex items-center text-xs space-x-3">
-                        <span>{{ item.author }}</span>
-                        <span>{{ item.date|date('M d') }}</span>
+                        <span>{{ article.author.firstname }}</span>
+                        <span>{{ article.publishedAt|date('M d') }}</span>
                     </div>
                 </div>
             </div>
@@ -105,10 +100,10 @@
     
     <!-- Thumbnail Navigation -->
     <div class="flex justify-center mt-6 space-x-2 overflow-x-auto pb-2" id="carouselThumbs">
-        {% for item in items %}
+        {% for item in latestArticles %}
         <button class="carousel-thumb flex-shrink-0 w-20 h-16 rounded overflow-hidden border-2 transition-all duration-200 {{ loop.first ? 'border-primary-600' : 'border-gray-300' }}" 
                 data-slide="{{ loop.index0 }}">
-            <img src="{{ item.image }}" alt="{{ item.title }}" class="w-full h-full object-cover">
+            <img src="{{ item.imageUrl }}" alt="{{ item.title }}" class="w-full h-full object-cover">
         </button>
         {% endfor %}
     </div>
