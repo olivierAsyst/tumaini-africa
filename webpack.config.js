@@ -9,6 +9,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     // enable Post Css Loader pour tailwindcss
     .enablePostCssLoader()
+
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path

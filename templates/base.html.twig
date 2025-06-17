@@ -9,6 +9,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter&family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.2.0/ckeditor5.css">
+
         {% block meta %}{% endblock %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -24,15 +26,7 @@
             {% endblock %}
         </div>
             {% include 'partials/_footer.html.twig' %}
-        <script src="../assets/editor.js"></script>
-        <script type="importmap">
-    {
-        "imports": {
-            "https://esm.sh/v135/prosemirror-model@1.22.3/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.19.3/es2022/prosemirror-model.mjs", 
-            "https://esm.sh/v135/prosemirror-model@1.22.1/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.19.3/es2022/prosemirror-model.mjs"
-        }
-    }
-</script>
+        <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 {% block js %}
     
 {% endblock %}

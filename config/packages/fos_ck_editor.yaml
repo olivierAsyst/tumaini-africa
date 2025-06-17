@@ -1,6 +1,0 @@
-fos_ck_editor:
-    default_config: default
-    configs:
-        default:
-            toolbar: [ 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ]
-            uiColor: '#ffffff'
