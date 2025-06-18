@@ -70,7 +70,7 @@
                           <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <a href="{{ path('app_article_show', {'id': article.id}) }}" class="flex items-center">
                               <img src="https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-front-image.png" alt="iMac Front Image" class="w-auto h-8 mr-3">
-                              {{ article.title }}
+                              {{ article.title | slice(0, 100) }} ...
                             </a>
                           </th>
                           <td class="px-4 py-2">

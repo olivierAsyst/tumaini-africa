@@ -67,7 +67,7 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $isUrgent = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?int $viewCount = 0;
 
     public function __construct()

@@ -3,37 +3,6 @@
 {% block title %}{{ controller_name }}{% endblock %}
 
 {% block body %}
-{# <section>
-  <div class="max-w-screen-xl lg:py-4 lg:pt-2 lg:px-3 mx-auto">
-    <div class="bg-gradient-to-br from-slate-700 via-orange-900 to-slate-900 rounded-2xl">
-        <div class="px-4 py-2">
-            <div class="flex flex-col podcast-showcase w-full">   
-              <div class="text-left py-2">
-                  <p class="text-2xl text-white font-bold">Nos derniers Podcast</p>
-              </div>
-                <!-- Podcast en vedette -->
-                  {% if podcasts|length > 0 %}
-                      {% include 'client_podcast/_featured_podcast.html.twig' with {'podcast': podcasts[0]} %}
-                  {% endif %}
-                  
-                  <!-- Podcasts secondaires -->
-                  {% if podcasts|length > 1 %}
-                      <div class="other-episodes">
-                          {% for podcast in podcasts[1:] %}
-                              {% include 'client_podcast/_small_podcast.html.twig' with {'podcast': podcast} %}
-                          {% endfor %}
-                      </div>
-                  {% endif %}
-            </div>
-        </div>
-        
-        <!-- Lecteur audio global -->
-        <div id="audio-player" class="audio-player hidden">
-            {% include 'client_podcast/_audio_player.html.twig' %}
-        </div>
-    </div>
-  </div>
-</sectio> #}
 <section class="bg-gradient-to-r dark:bg-gray-900">
     <div class="py-2 px-2 mx-auto max-w-screen-xl text-center lg:py-4 lg:px-3">
       <div class="flex gap-5">
@@ -120,44 +89,6 @@
                           </div>
                       </div>
                       {% endfor %}
-                      {# <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
-                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/IMG-20250522-WA0222.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
-                          </div>
-                          <div class="flex flex-col flex-2">
-                            <p class="text-xs text-violet-700 px-4 font-bold">POLITIQUE</p>
-                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
-                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
-                                  Alexis Gisaro lance les travaux du séminaire sur l'investissement ...                                </h5>
-                                <div class="text-sm text-gray-500">19 Juin 2025</div>
-                            </h1></a>
-                          </div>
-                      </div>
-                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
-                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2025/05/IMG-20250405-WA0048.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
-                          </div>
-                          <div class="flex flex-col flex-2">
-                            <p class="text-xs text-violet-700 px-4 font-bold">SOCIETE</p>
-                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
-                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
-                                  Un jeune homme tente de se suicider après une dispute conjugale
-                                </h5>
-                                <div class="text-sm text-gray-500">19 Juin 2025</div>
-                            </h1></a>
-                          </div>
-                      </div>
-                      <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
-                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('https://tumainiafricanews.info/wp-content/uploads/2024/11/IMG-20241125-WA0105-1.jpg')] transition-transform duration-300 ease-in-out hover:scale-105">
-                          </div>
-                          <div class="flex flex-col flex-2">
-                            <p class="text-xs text-violet-700 px-4 font-bold">SPORT</p>
-                            <h1><a class="flex flex-col px-4 justify-between flex-2 leading-normal">
-                                <h5 class="mb-1 text-[13px] font-bold tracking-tight text-gray-900 hover:text-orange-700 cursor-pointer dark:text-white">
-                                  Linafoot ligue 2 Zone Est /B: Un dimanche riche en rebondissement et en révélation.
-                                </h5>
-                                <div class="text-sm text-gray-500">19 Juin 2025</div>
-                            </h1></a>
-                          </div>
-                      </div> #}
                     </div>
                 </div>
             </div>
@@ -240,6 +171,7 @@
                       <a href="{{ path('app_single_article_public', {'slug': first_viewed.slug}) }}">{{ first_viewed.title }}</a>
                     </h2>
                     <p class="text-xs opacity-70 mt-1">par {{ first_viewed.author.firstname }} - {{ first_viewed.publishedAt|date('d/m/Y à H:i') }}<p>
+                    <p class="text-xs opacity-70 mt-1">{{ first_viewed.viewCount }} Vue(s)</p>
                   </div>
             </div>
             <div class="viewd-less pt-6">
@@ -340,55 +272,6 @@
             {% endfor %}
     </div>
 </section>
-{# <div class="weekly3-news-area py-20 bg-gray-50" id="news-carousel">
-    <div class="container mx-auto px-4">
-        <div class="mb-8 text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2">Actualités Récentes</h2>
-        </div>
-        
-        <div class="carousel-container overflow-hidden">
-            <div class="carousel-track flex transition-transform duration-700" style="transform: translateX(0%)">
-                {% for news in newsItems %}
-                    <div class="carousel-slide w-1/4 flex-shrink-0 px-3">
-                        <div class="weekly3-single group cursor-pointer">
-                            <div class="weekly3-img overflow-hidden rounded-lg mb-4">
-                                <img src="{{ news.image }}" 
-                                    alt="{{ news.title }}"
-                                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
-                            </div>
-                            <div class="weekly3-caption">
-                                <h4 class="mb-2">
-                                    <a href="{{ news.link }}" 
-                                    class="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300">
-                                        {{ news.title }}
-                                    </a>
-                                </h4>
-                                <p class="text-gray-500 text-sm">{{ news.date }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <!-- Navigation -->
-        <button class="carousel-prev absolute left-2 top-1/2">
-          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
-          </svg>
-        </button>
-        <button class="carousel-next absolute right-2 top-1/2">
-          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-          </svg>
-        </button>
-        
-        <!-- Dots -->
-        <div class="carousel-dots flex justify-center mt-6"></div>
-    </div>
-</div> #}
-    {# </div>
-</section> #}
 {% endblock %}
 {% block js %}
 <script>

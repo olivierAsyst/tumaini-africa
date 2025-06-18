@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250605121933 extends AbstractMigration
+final class Version20250618060901 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,10 +21,13 @@ final class Version20250605121933 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE article CHANGE created_at created_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', CHANGE slug slug LONGTEXT DEFAULT NULL
+            ALTER TABLE article ADD view_count INT NOT NULL, CHANGE created_at created_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)'
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE category CHANGE description description VARCHAR(255) NOT NULL, CHANGE created_at created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)'
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user CHANGE roles roles JSON NOT NULL
         SQL);
     }
 
@@ -35,7 +38,10 @@ final class Version20250605121933 extends AbstractMigration
             ALTER TABLE category CHANGE description description VARCHAR(255) DEFAULT NULL, CHANGE created_at created_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)'
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE article CHANGE created_at created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', CHANGE slug slug LONGTEXT NOT NULL
+            ALTER TABLE article DROP view_count, CHANGE created_at created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)'
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user CHANGE roles roles LONGTEXT NOT NULL COLLATE `utf8mb4_bin`
         SQL);
     }
 }
