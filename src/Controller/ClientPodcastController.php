@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ClientPodcastController extends AbstractController
 {
-    #[Route('/podcasts', name: 'app_audio_index')]
+    #[Route('/podcasts', name: 'app_podcast_index')]
     public function index(): Response
     {
         // Dans un environnement Symfony complet, nous récupérerions les audios depuis la base de données

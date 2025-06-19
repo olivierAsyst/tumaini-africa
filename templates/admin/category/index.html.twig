@@ -6,6 +6,7 @@
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <h1>Les Categories</h1>
+    <a href="{{ path('app_category_new') }}" class="font-medium text-green-700 dark:text-green-500 hover:underline">Ajouter un nouveau</a>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -36,8 +37,7 @@
                         {{ category.description }}
                     </td>
                     <td class="px-6 py-4 flex items-center gap-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-                        <a href="{{ path('app_category_new') }}" class="font-medium text-green-700 dark:text-green-500 hover:underline">Ajouter un nouveau</a>
+                        <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
                     </td>
                 </tr>
                 {% else %}
