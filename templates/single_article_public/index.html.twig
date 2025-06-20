@@ -11,7 +11,7 @@
     <meta property="og:title" content="{{ article.title }}">
     <meta property="og:description" content="{{ article.content|striptags|slice(0, 145) ~ '...' }}">
     {% if article.imageUrl %}
-    <meta property="og:image" content="{{ absolute_url(asset('uploads/articles/' ~ article.imageUrl)) }}">
+    <meta property="og:image" content="{{ vich_uploader_asset(article, 'imageFile')|default("images/static/default.png") }}">
     {% endif %}
     
     {# Twitter Card #}
@@ -101,10 +101,17 @@
         <!-- Main Image -->
         <figure class="mb-8 zoom-in">
             <div class="relative overflow-hidden rounded-lg shadow-lg group">
-                <img src="{{ article.imageUrl }}" 
+            {% if article.imageUrl %}
+                <img src="{{ vich_uploader_asset(article, 'imageFile') }}" 
                      alt="{{ article.title }}" 
                      class="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {% else %}
+                <img src="{{ asset('images/static/default.png') }}" 
+                     alt="{{ article.title }}" 
+                     class="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {% endif %}
             </div>
             <figcaption class="mt-3 text-sm text-gray-600 italic">
                 Illustration en image
@@ -150,9 +157,15 @@
                     <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 slide-in-up" 
                              style="animation-delay: {{ loop.index0 * 0.1 }}s">
                         <div class="aspect-w-16 aspect-h-9">
-                            <img src="{{ relatedArticle.imageUrl }}" 
+                        {% if relatedArticle.imageUrl %}
+                            <img src="{{ vich_uploader_asset(relatedArticle, 'imageFile') }}" 
                                  alt="{{ relatedArticle.title }}" 
                                  class="w-full h-48 object-cover">
+                        {% else %}
+                            <img src="{{ asset('images/static/default.png') }}" 
+                                 alt="{{ relatedArticle.title }}" 
+                                 class="w-full h-48 object-cover">
+                        {% endif %}
                         </div>
                         <div class="p-6">
                             <h4 class="font-serif font-semibold text-gray-900 mb-2 hover:text-leparisien-red transition-colors">

@@ -19,18 +19,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-        # Security\OAuthConnector:
-        #     arguments:
-        #         $properties:
-        #             'google': 'google'
     
-    # les configurations de hwi_oauth pour l'authentification avec des providers tiers
-    hwi_oauth.user.provider.entity:
-        class: HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider
-        arguments:
-            $class: App\Entity\User
-            $properties:
-                'google': 'google'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

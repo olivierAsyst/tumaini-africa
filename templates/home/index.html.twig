@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ controller_name }}{% endblock %}
+{% block title %}TUMAINI AFRICA NEWS | {{ controller_name }}{% endblock %}
 
 {% block body %}
 <section class="bg-gradient-to-r dark:bg-gray-900">
@@ -13,7 +13,7 @@
                 {% for article in urgents %}
                 <div class="relative w-full flex-shrink-0">
                   <img
-                    src="{{ article.imageUrl }}"
+                    src="{{ vich_uploader_asset(article, 'imageFile')|default("images/static/default.png") }}"
                     alt="Article 1"
                     class="w-full h-[550px] object-cover rounded-2xl"
                   />
@@ -48,7 +48,8 @@
                     <p class="text-indigo-950 text-4xl font-semibold">Dernières nouvelles</p>
                     <div class="items pt-5">
                       <a href="{{ path('app_single_article_public', {'slug': lastFirst.slug}) }}" alt="{{ lastFirst.title }}" class="">
-                        <div class="couverture mx-auto mb-4 w-full h-[200px] rounded-lg bg-cover bg-center bg-[url('{{ lastFirst.imageUrl }}')] transition-transform duration-300 ease-in-out hover:scale-105">
+                        <div class="couverture mx-auto mb-4 w-full h-[200px] rounded-lg bg-cover bg-center transition-transform duration-300 ease-in-out hover:scale-105"
+                        style="background-image: url('{{ vich_uploader_asset(lastFirst, 'imageFile') ? asset(vich_uploader_asset(lastFirst, 'imageFile')) : asset('images/static/default.png') }}')">
                         </div>
                         <h1 class="text-2xl text-start font-bold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
                           {{ lastFirst.title }}
@@ -76,7 +77,8 @@
                     <div class="flex mt-8 flex-col gap-4">
                       {% for article in category_articles %}
                       <div href="#" class="flex flex-col items-center text-left md:flex-row md:max-w-xl">
-                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center bg-[url('{{ article.imageUrl }}')] transition-transform duration-300 ease-in-out hover:scale-105">
+                          <div class="mx-auto flex-1 h-[100px] max-w-[150px] rounded-lg bg-cover bg-center transition-transform duration-300 ease-in-out hover:scale-105"
+                          style="background-image: url('{{ vich_uploader_asset(article, 'imageFile') ? asset(vich_uploader_asset(article, 'imageFile')) : asset('images/static/default.png') }}')">
                           </div>
                           <div class="flex flex-col flex-2">
                             <p class="text-xs text-violet-700 px-4 font-bold uppercase">{{ article.category.name }}</p>
@@ -115,7 +117,7 @@
         <div class="w-[500px] flex flex-col gap-5 text-left">
           <div class="second relative w-full flex-shrink-0 overflow-hidden inline-block">
               <img
-                    src="{{ lastSecond.imageUrl }}"
+                    src="{{ vich_uploader_asset(lastSecond, 'imageFile')|default("images/static/default.png")}}"
                     alt="{{ lastSecond.title }}"
                     class="w-full h-64 object-cover rounded-2xl transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-2xl"
                   />
@@ -134,7 +136,7 @@
           </div>
           <div class="troisieme relative w-full flex-shrink-0">
               <img
-                    src="{{ lastThird.imageUrl }}"
+                    src="{{ vich_uploader_asset(lastThird, 'imageFile')|default("images/static/default.png")}}"
                     alt="{{ lastThird.title }}"
                     class="w-full h-64 object-cover rounded-2xl"
                   />
@@ -158,7 +160,7 @@
             </div>
             <div class="relative w-full flex-shrink-0">
               <img
-                    src="{{ first_viewed.imageUrl }}"
+                    src="{{ vich_uploader_asset(first_viewed, 'imageFile')|default("images/static/default.png")}}"
                     alt="{{ first_viewed.title }}"
                     class="w-full h-80 object-cover rounded-2xl"
                   />
@@ -180,7 +182,7 @@
                 {% for item in most_viewed %}
                 {% if not loop.first %}
                   <div class="flex items">
-                      <img src="{{ item.imageUrl }}" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
+                      <img src="{{ vich_uploader_asset(item, 'imageFile')|default("images/static/default.png")}}" alt="Article 1" class="w-16 h-16 object-cover rounded-lg mr-4">
                       <div>
                         <h3 class="text-sm font-semibold text-indigo-950 hover:text-orange-600 transition-colors duration-300">
                           <a href="{{ path('app_single_article_public', {'slug': item.slug}) }}">{{ item.title }}</a>
@@ -218,7 +220,7 @@
             <div id="carousel" class="flex space-x-6 overflow-hidden scroll-smooth scrollbar-hide px-5">
               {% for article in trending %}
               <article class="w-[200px] min-w-[240px] flex-shrink-0 bg-white rounded-lg overflow-hidden">
-                <img src="{{ article.imageUrl }}" alt="Article 1" class="w-full h-40 object-cover">
+                <img src="{{ vich_uploader_asset(article, 'imageFile')|default("images/static/default.png") }}" alt="Article 1" class="w-full h-40 object-cover">
                 <div class="p-4">
                   <h5 class="text-lg font-semibold mb-2 text-indigo-950 hover:text-orange-600 cursor-pointer">
                     <a href="{{ path('app_single_article_public', {'slug': article.slug}) }}">{{ article.title }}</a>
