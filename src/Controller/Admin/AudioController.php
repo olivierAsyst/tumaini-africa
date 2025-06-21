@@ -18,10 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AudioController extends AbstractController
 {
     #[Route(name: 'app_audio_index', methods: ['GET'])]
-    public function index(AudioRepository $audioRepository): Response
+    public function index(AudioRepository $audioRepository, Request $request): Response
     {
+
+        $page = $request->query->getInt('page', 1); // Récupère le numéro de page depuis l'URL
+        
+        $audio = $audioRepository->findAllPaginated($page);
         return $this->render('admin/audio/index.html.twig', [
-            'audio' => $audioRepository->findAll(),
+            'audios' => $audio
         ]);
     }
 

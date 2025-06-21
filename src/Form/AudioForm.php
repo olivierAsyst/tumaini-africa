@@ -26,10 +26,6 @@ class AudioForm extends AbstractType
             ->add('coverFile', FileType::class, [
                 'required' => false
             ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'firstname',
-            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

@@ -5,15 +5,36 @@ namespace App\Repository;
 use App\Entity\Audio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Audio>
  */
 class AudioRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Audio::class);
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * 
+     * @param int $page
+     * @param int $limit
+     */
+    public function findAllPaginated(int $page = 1, int $limit = 20)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC') // Exemple de tri par date de création
+            ->getQuery();
+            
+        return $this->paginator->paginate(
+            $query,    // Requête Doctrine
+            $page,      // Numéro de page
+            $limit      // Limite par page
+        );
     }
 
     //    /**
