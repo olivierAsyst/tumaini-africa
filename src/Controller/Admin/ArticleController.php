@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ArticleController extends AbstractController
 {
     #[Route(name: 'app_article_index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository, EntityManagerInterface $em): Response
+    public function index(ArticleRepository $articleRepository, Request $request, EntityManagerInterface $em): Response
     {
         /*$user = new User();
         $user->setFirstname("Olivier");
@@ -29,10 +29,12 @@ final class ArticleController extends AbstractController
         $user->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
         
         $em->persist($user);
-        $em->flush();*/  
-
+        $em->flush();*/
+        $page = $request->query->getInt('page', 1); // Récupère le numéro de page depuis l'URL
+        
+        $articles = $articleRepository->findAllPaginated($page);
         return $this->render('admin/article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
         ]);
     }
 
@@ -47,6 +49,7 @@ final class ArticleController extends AbstractController
             $article->setCreatedAt(new DateTimeImmutable());
             $article->setPublishedAt(new DateTimeImmutable());
             $article->setSlug($this->generateSlug($article->getTitle()));
+            $article->setAuthor($this->getUser());
             $entityManager->persist($article);
             $entityManager->flush();
 

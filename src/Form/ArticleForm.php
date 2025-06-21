@@ -44,12 +44,14 @@ class ArticleForm extends AbstractType
                     ]),
                 ]
             ])
-            ->add('imageFile', FileType::class)
-            // ->add('excerpt')
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'firstname',
+            ->add('imageFile', FileType::class, [
+                "required" => false
             ])
+            // ->add('excerpt')
+            // ->add('author', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'firstname',
+            // ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

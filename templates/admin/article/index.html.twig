@@ -100,6 +100,9 @@
                         Aucune Article
                        </tr>
                   {% endfor %}
+                  <div class="navigation">
+                  {{ knp_pagination_render(articles) }}
+                </div>
                   </tbody>
               </table>
           </div>

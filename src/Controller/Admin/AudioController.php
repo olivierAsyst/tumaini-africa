@@ -46,6 +46,7 @@ final class AudioController extends AbstractController
             $audio->setCreatedAt(new DateTimeImmutable());
             $audio->setPublishedAt(new DateTimeImmutable());
             $audio->setSlug($this->generateSlug($audio->getTitle()));
+            $audio->setAuthor($this->getUser());
             $entityManager->persist($audio);
             $entityManager->flush();
 

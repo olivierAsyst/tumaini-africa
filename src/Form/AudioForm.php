@@ -19,9 +19,13 @@ class AudioForm extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'required' => false
+            ])
             ->add('audioFile', FileType::class)
-            ->add('coverFile', FileType::class)
+            ->add('coverFile', FileType::class, [
+                'required' => false
+            ])
             ->add('author', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'firstname',

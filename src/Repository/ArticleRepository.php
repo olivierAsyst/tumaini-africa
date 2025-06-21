@@ -16,9 +16,29 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Article::class);
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * 
+     * @param int $page
+     * @param int $limit
+     */
+    public function findAllPaginated(int $page = 1, int $limit = 20)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC') // Exemple de tri par date de création
+            ->getQuery();
+            
+        return $this->paginator->paginate(
+            $query,    // Requête Doctrine
+            $page,      // Numéro de page
+            $limit      // Limite par page
+        );
     }
 
     /**
