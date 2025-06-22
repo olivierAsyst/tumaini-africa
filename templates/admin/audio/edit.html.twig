@@ -3,11 +3,111 @@
 {% block title %}Edit Audio{% endblock %}
 
 {% block in_body %}
-    <h1>Edit Audio</h1>
+<section class="w-full dark:bg-gray-900 py-1 sm:py-2">
+  <div class="mx-auto max-w-screen-2xl lg:px-6">
+      <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+        <h5 class="text-center mb-2 text-2xl font-semibold dark:text-white">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-800 text-transparent bg-clip-text">Modifier l'Audio</span>
+        </h5>
+        <section class="bg-white dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+            {{ form_start(form) }}
+                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', 'rows': 5}}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                        {{ form_widget(form.category, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+                    
+                    <!-- Champ Audio File -->
+                    <div class="sm:col-span-2">
+                        <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichier Audio</span>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span class="font-semibold">Cliquez pour uploader</span> ou glissez-déposez
+                                    </p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">MP3, WAV, AAC (MAX. 10MB)</p>
+                                </div>
+                                {{ form_widget(form.audioFile, {'attr': {'class': 'hidden'}}) }}
+                            </label>
+                        </div>
+                        {{ form_errors(form.audioFile) }}
+                        {% if audio.cover %}
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Fichier actuel: {{ audio.cover }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Champ Cover File (non obligatoire) -->
+                    <div class="sm:col-span-2">
+                        <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image de couverture (optionnel)</span>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <div class="flex gap-5 w-full">
+                                        <div>
+                                            {{ form_widget(form.coverFile, {'attr': {'class': 'hidden'}}) }}
+                                        </div>
+                                        <div class="image-preview">
+                                            {% if audio.cover %}
+                                                <img src="{{ vich_uploader_asset(audio, 'coverFile') }}" class="w-full max-h-48 object-contain" alt="Couverture audio">
+                                            {% else %}
+                                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                                </svg>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG (MAX. 800x400px)</p>
+                                </div>
+                            </label>
+                        </div>
+                        {{ form_errors(form.coverFile) }}
+                    </div>
+                </div>
+                <div class="flex justify-between mt-6">
+                    <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-yellow-900 hover:bg-yellow-800">
+                        Mettre à jour
+                    </button>
+                    <a class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-900 hover:bg-gray-800" href="{{ path('app_audio_index') }}">Retour à la liste</a>
+                </div>
+            {{ form_end(form) }}
+            
+            {{ include('admin/audio/_delete_form.html.twig') }}
+        </div>
+      </section>
+      </div>
+    </div>
+</section>
 
-    {{ include('admin/audio/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_audio_index') }}">back to list</a>
-
-    {{ include('admin/audio/_delete_form.html.twig') }}
+{% block javascripts %}
+<script>
+    // Preview pour l'image de couverture
+    document.getElementById('{{ form.coverFile.vars.id }}').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.querySelector('.image-preview');
+                preview.innerHTML = `<img src="${event.target.result}" class="w-full max-h-48 object-contain" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}
 {% endblock %}

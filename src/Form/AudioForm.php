@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AudioForm extends AbstractType
 {
@@ -22,8 +23,8 @@ class AudioForm extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false
             ])
-            ->add('audioFile', FileType::class)
-            ->add('coverFile', FileType::class, [
+            ->add('audioFile', VichFileType::class)
+            ->add('coverFile', VichFileType::class, [
                 'required' => false
             ])
             ->add('category', EntityType::class, [

@@ -3,141 +3,139 @@
 {% block title %}Nos podcasts !{% endblock %}
 
 {% block body %}
+<div class="min-h-screen bg-gray-50">
     {# Hero Section #}
-    <section class="relative bg-gradient-to-r from-orange-500 to-red-800 rounded-2xl overflow-hidden shadow-xl">
-        <div class="py-2 px-2 mx-auto max-w-screen-xl text-center lg:py-4 lg:px-3">
-            <div class="relative z-10 container-custom py-12 md:py-16">
-                <div class="max-w-3xl text-white">
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Nos Emissions</h1>
-                    <p class="text-xl text-yellow-100 mb-6">Découvrez nos émissions et podcasts audio pour approfondir l'actualité où que vous soyez</p>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="#latest-podcasts" class="btn bg-white text-yellow-900 hover:bg-yellow-50 p-2 rounded">Derniers podcasts</a>
-                        <a href="#categories" class="btn bg-transparent text-white rounded border border-white hover:bg-white/10">Parcourir par catégorie</a>
-                    </div>
+    <section class="relative bg-gradient-to-r from-orange-500 to-red-800 rounded-b-3xl overflow-hidden shadow-xl">
+        <div class="container mx-auto px-4 py-16 md:py-24 lg:py-32">
+            <div class="relative z-10 text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Découvrez nos émissions exclusifs
+                </h1>
+                <p class="text-xl text-yellow-100 mb-8 max-w-2xl mx-auto">
+                    Plongez dans un univers d'histoires captivantes et d'analyses pertinentes
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#latest-podcasts" 
+                       class="px-6 py-3 bg-white text-yellow-900 font-medium rounded-lg hover:bg-yellow-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                        Écouter maintenant
+                    </a>
+                    <a href="#categories" 
+                       class="px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300">
+                        Explorer les catégories
+                    </a>
                 </div>
             </div>
-            <div class="absolute inset-0 opacity-20 pointer-events-none">
-                <img src="https://images.unsplash.com/photo-1486596538271-46f894196564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Podcasts" class="w-full h-full object-cover">
-            </div>
-            <div class="absolute right-10 bottom-0 lg:block">
-                <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white/20">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-                </svg>
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <img src="https://images.unsplash.com/photo-1486596538271-46f894196564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                     alt="Podcasts" class="w-full h-full object-cover">
             </div>
         </div>
     </section>
 
     {# Latest Podcasts #}
-    <section id="latest-podcasts" class="mb-16">
-        <h2 class="text-2xl font-bold mb-6">Nos derniers podcasts</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {% for audio in audios %}
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div class="md:flex">
-                        <div class="relative md:w-1/3 h-48 md:h-auto overflow-hidden bg-yellow-100">
-                            <img src="{{ vich_uploader_asset(audio, 'coverFile') }}" alt="{{ audio.title }}" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                                <a href="{{ path('app_audio_show', {'id': audio.id}) }}" class="bg-white rounded-full p-3 shadow-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </a>
-                            </div>
+    <section id="latest-podcasts" class="container mx-auto px-4 py-16 md:py-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Nos derniers épisodes</h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for audio in audios %}
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ vich_uploader_asset(audio, 'coverFile') }}" alt="{{ audio.title }}" 
+                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                            <span class="bg-yellow-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                {{ audio.category.name }}
+                            </span>
                         </div>
-                        <div class="p-6 md:w-2/3">
-                            <div class="flex items-center mb-2">
-                                <a href="#" class="text-xs font-medium text-primary bg-yellow-50 px-2 py-1 rounded-md mr-3">{{ audio.category.name }}</a>
-                                <span class="text-sm text-gray-500">{{ audio.duration }} min</span>
-                            </div>
-                            <a href="{{ path('app_audio_show', {'id': audio.id}) }}" class="block">
-                                <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors duration-200">{{ audio.title }}</h3>
-                            </a>
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ audio.description }}</p>
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center">
-                                    <img src="images/static/default.png" alt="{{ audio.author.firstname }}" class="w-8 h-8 rounded-full mr-2 object-cover">
-                                    <span class="text-sm text-gray-700">{{ audio.author.firstname }}</span>
-                                </div>
-                                <span class="text-sm text-gray-500">{{ audio.publishedAt|date("d/m/Y") }}</span>
-                            </div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/30">
+                            <button class="bg-white rounded-full p-4 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span>{{ audio.publishedAt|date("d M Y") }}</span>
+                            <span class="mx-2">•</span>
+                            <span>{{ audio.duration }} min</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-yellow-600 transition-colors">
+                            <a href="{{ path('app_podcast_show', {'slug': audio.slug}) }}">{{ audio.title }}</a>
+                        </h3>
+                        {# <p class="text-gray-600 mb-4 line-clamp-2">{{ audio.description }}</p> #}
+                        <div class="flex items-center">
+                            <img src="images/static/default.png" alt="{{ audio.author.firstname }}" 
+                                 class="w-8 h-8 rounded-full mr-3 object-cover border-2 border-yellow-600">
+                            <span class="text-sm font-medium">{{ audio.author.firstname }}</span>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+
+                {% endfor %}
+            </div>
+                <div class="navigation">
+                  {{ knp_pagination_render(audios) }}
+                </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 transition-colors duration-300">
+                    Voir tous les podcasts
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
 
-    {# Categories Section #}
-    {# <section id="categories" class="mb-16">
-        <h2 class="text-2xl font-bold mb-6">Parcourir par catégorie</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {% for category in categories %}
-                <a href="#" class="group">
-                    <div class="bg-white rounded-xl shadow-sm p-6 flex flex-col items-center text-center h-full transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-3 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                {% if loop.index == 1 %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                {% elseif loop.index == 2 %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                {% elseif loop.index == 3 %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                {% elseif loop.index == 4 %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                {% elseif loop.index == 5 %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                                {% else %}
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                {% endif %}
-                            </svg>
-                        </div>
-                        <h3 class="font-medium text-gray-800 group-hover:text-primary mb-1">{{ category.name }}</h3>
-                        <span class="text-sm text-gray-500">{{ category.count }} podcasts</span>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
-    </section> #}
-
     {# Subscribe Section #}
-    <section class="bg-primary bg-gradient-to-r from-orange-500 to-red-800 rounded-2xl p-8 lg:p-10 text-white mb-12">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-2xl lg:text-3xl font-bold mb-3">Abonnez-vous à nos podcasts</h2>
-            <p class="text-yellow-100 mb-6">Recevez nos derniers podcasts directement sur votre plateforme préférée.</p>
-            <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <a href="#" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center">
+    <section class="bg-gradient-to-r from-orange-500 to-red-800 rounded-3xl mx-4 md:mx-8 lg:mx-16 my-16 md:my-24 p-12 text-center text-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ne manquez aucun épisode</h2>
+            <p class="text-xl text-yellow-100 mb-8 max-w-2xl mx-auto">
+                Abonnez-vous sur votre plateforme préférée pour recevoir nos nouveaux épisodes automatiquement
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <a href="#" class="flex items-center px-6 py-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="w-6 h-6 mr-2 fill-current">
                         <path d="M25,2C12.318,2,2,12.317,2,25c0,12.682,10.318,23,23,23c12.683,0,23-10.318,23-23C48,12.317,37.683,2,25,2z M32.265,37.446h-3.988v-2.017c0,0-3.005,2.425-5.974,2.425c-3.742,0-5.975-3.055-5.975-6.827c0-3.773,0-10.11,0-10.11h3.984v9.516c0,1.513,0.584,3.107,2.723,3.107c2.208,0,2.701-1.457,2.701-3.107c0-1.649,0-9.516,0-9.516h3.984 c0,0,0,10.11,0,13.376C29.721,33.065,30.526,35.429,32.265,37.446z M15.338,33.421c-1.097,0-1.986-0.889-1.986-1.986 c0-1.097,0.889-1.987,1.986-1.987c1.095,0,1.985,0.889,1.985,1.987C17.323,32.532,16.434,33.421,15.338,33.421z"/>
                     </svg>
                     Apple Podcasts
                 </a>
-                <a href="#" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center">
+                <a href="#" class="flex items-center px-6 py-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="w-6 h-6 mr-2 fill-current">
                         <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 25 17 A 3 3 0 0 0 25 11 z M 25 19 C 18.593567 19 14.003273 23 13.271484 23.857422 A 1.0001 1.0001 0 0 0 13 24.599609 L 13 33 A 1.0001 1.0001 0 1 0 15 33 L 15 25.398438 C 15.122398 25.292125 19.065423 21 25 21 C 30.934577 21 34.877602 25.292125 35 25.398438 L 35 33 A 1.0001 1.0001 0 1 0 37 33 L 37 24.599609 A 1.0001 1.0001 0 0 0 36.728516 23.857422 C 35.996727 23 31.406433 19 25 19 z M 19 26 A 1.0001 1.0001 0 0 0 18 27 L 18 32 A 1.0001 1.0001 0 0 0 19 33 L 26 33 A 1.0001 1.0001 0 0 0 27 32 L 27 27 A 1.0001 1.0001 0 0 0 26 26 L 19 26 z M 31 26 A 1.0001 1.0001 0 0 0 30 27 L 30 32 A 1.0001 1.0001 0 0 0 31 33 L 31 33 A 1.0001 1.0001 0 0 0 32 32 L 32 27 A 1.0001 1.0001 0 0 0 31 26 z M 20 28 L 25 28 L 25 31 L 20 31 L 20 28 z M 22.5 35 A 2.5 2.5 0 0 0 20 37.5 A 2.5 2.5 0 0 0 22.5 40 A 2.5 2.5 0 0 0 25 37.5 A 2.5 2.5 0 0 0 22.5 35 z"/>
                     </svg>
                     Spotify
                 </a>
-                <a href="#" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center">
+                <a href="#" class="flex items-center px-6 py-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="w-6 h-6 mr-2 fill-current">
                         <path d="M 46 25 C 46 35.77 39.037 44.752 29.354 47.217 C 28.936 44.461 30.904 38.127 35 35 C 38.658 32.215 42.15 31.441 46 25 z M 4 26 A 1 1 0 0 0 4 28 A 1 1 0 0 0 4 26 z M 5 27 C 5 36.941 13.059 45 23 45 L 23 27 L 5 27 z M 25 27 L 25 45 C 31.053 45 36.489 41.99 39.643 37.377 C 33.232 41.349 27.927 33.613 25 27 z M 17 30 A 1 1 0 0 0 17 32 A 1 1 0 0 0 17 30 z M 11 32 A 1 1 0 0 0 11 34 A 1 1 0 0 0 11 32 z M 8 35 A 1 1 0 0 0 8 37 A 1 1 0 0 0 8 35 z M 14 38 A 1 1 0 0 0 14 40 A 1 1 0 0 0 14 38 z"/>
                     </svg>
                     Google Podcasts
                 </a>
-                <a href="#" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" class="w-6 h-6 mr-2 fill-current">
-                        <path d="M3,13c0,4.24,2.05,8.5,5.12,10.91v-5.23c0-0.29-0.12-0.55-0.29-0.73c-1.67-1.75-2.71-4.25-2.71-6.94c0-4.78,3.3-8.82,7.74-9.88 C12.14,1.04,11.38,1,10.59,1C5.6,1,1.54,6.22,1.54,12.59c0,0.18,0.01,0.35,0.02,0.53C2.84,9.96,5.64,8,8.86,8C6.42,8,4,9.72,4,13 c0,0,0,0.59,0,0.59C4,13.39,3.38,13.18,3,13z M27,13c0-0.18-0.01-0.35-0.03-0.53C25.15,15.61,22.35,18,19.13,18 c2.44,0,4.87-2.14,4.87-5.41c0,0,0-0.59,0-0.59c0-0.2,0.62,0.01,1,0.59c0-4.24-2.05-7.5-5.12-9.91v4.23c0,0.29,0.12,0.55,0.29,0.73 c1.67,1.75,2.71,4.25,2.71,6.94c0,4.78-3.3,8.82-7.74,9.88c0.71,0.1,1.48,0.14,2.26,0.14c4.99,0,9.05-4.22,9.05-10.59 c0-0.18-0.01-0.35-0.02-0.53C24.83,16.61,22.35,18,19.13,18c2.44,0,4.87-1.72,4.87-5c0,0,0-0.59,0-0.59 C24,12.62,26.62,12.82,27,13z M15,1C9.48,1,5,6.48,5,13c0,2.5,1,5,2,7c0,0,0.6,0.47,0.6,1.53v4.94C9.16,27.74,11.1,29,15,29 s5.84-1.26,7.4-2.53v-4.94c0-1.06,0.6-1.53,0.6-1.53c1-2,2-4.5,2-7C25,6.48,20.52,1,15,1z M15,19c-3.31,0-6-2.69-6-6s2.69-6,6-6 s6,2.69,6,6S18.31,19,15,19z M15,9c-2.21,0-4,1.79-4,4s1.79,4,4,4s4-1.79,4-4S17.21,9,15,9z M16,13c0,0.55-0.45,1-1,1 s-1-0.45-1-1s0.45-1,1-1S16,12.45,16,13z"/>
-                    </svg>
-                    RSS Feed
-                </a>
             </div>
-            <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-                <input type="email" placeholder="Votre adresse email" class="flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-800">
-                <button type="submit" class="btn bg-white text-primary hover:bg-yellow-50 shadow-lg sm:flex-shrink-0">
-                    Recevoir nos nouveautés
-                </button>
-            </form>
+            
+            <div class="max-w-md mx-auto">
+                <h3 class="text-xl font-medium mb-4">Ou recevez nos nouveautés par email</h3>
+                <form class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="Votre adresse email" 
+                           class="flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-800">
+                    <button type="submit" class="px-6 py-3 bg-white text-yellow-700 font-medium rounded-lg hover:bg-yellow-50 transition-colors duration-300">
+                        S'abonner
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
+</div>
 {% endblock %}

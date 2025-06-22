@@ -356,83 +356,170 @@
 </script>
 
 <script>
-  (() => {
-    const carousel = document.getElementById('carouselpoint');
-    const dotsContainer = document.getElementById('dots');
-    const items = carousel.querySelectorAll('.weekly3-single');
-    const itemWidth = items[0].offsetWidth + parseInt(getComputedStyle(carousel).gap || 0);
-    let currentIndex = 0;
+document.addEventListener('DOMContentLoaded', function() {
+    const player = document.getElementById('podcast-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const progressBar = document.getElementById('progress-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const volumeControl = document.getElementById('volume-control');
+    const muteBtn = document.getElementById('mute-btn');
+    const volumeOn = document.getElementById('volume-on');
+    const volumeOff = document.getElementById('volume-off');
+    const skipForward = document.getElementById('skip-forward');
+    const skipBackward = document.getElementById('skip-backward');
+    const speedBtn = document.getElementById('speed-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const sharePanel = document.getElementById('share-panel');
+    const copyUrlBtn = document.getElementById('copy-url');
+    const shareUrl = document.getElementById('share-url');
 
-    // Création dynamique des dots avec ID uniques
-    items.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.type = "button";
-      dot.id = `carousel-dot-${i}`;
-      dot.setAttribute('aria-label', `Slide ${i + 1}`);
-      dot.className = `
-        w-3 h-3 rounded-full bg-gray-400 transition-all duration-300
-        hover:bg-green-600
-        focus:outline-none
-      `;
-      dotsContainer.appendChild(dot);
+    // Format time in MM:SS
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
 
-      // Clic sur dot : scroll vers l'item correspondant
-      dot.addEventListener('click', () => {
-        currentIndex = i;
-        scrollToIndex(currentIndex);
-        updateDots();
-      });
-    });
+    // Update progress bar and time
+    function updateProgress() {
+        const currentTime = player.currentTime;
+        const duration = player.duration || 1;
+        const progressPercent = (currentTime / duration) * 100;
+        progressBar.value = progressPercent;
+        currentTimeEl.textContent = formatTime(currentTime);
+    }
 
-    const dots = dotsContainer.querySelectorAll('button');
-
-    function updateDots() {
-      dots.forEach((dot, i) => {
-        if (i === currentIndex) {
-          dot.classList.remove('w-3', 'h-3', 'rounded-full', 'bg-gray-400');
-          dot.classList.add('w-8', 'h-3', 'rounded-full', 'bg-green-600'); // point plus large horizontalement
-          dot.setAttribute('aria-current', 'true');
+    // Set initial state
+    function initPlayer() {
+        // Hide native controls to use our custom ones
+        player.controls = false;
+        
+        // Set initial icons state
+        if (player.paused) {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
         } else {
-          dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-gray-400');
-          dot.classList.remove('w-8', 'h-3', 'bg-green-600');
-          dot.removeAttribute('aria-current');
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
         }
-      });
+        
+        // Set initial volume
+        player.volume = volumeControl.value;
+        player.muted = false;
     }
 
-    function scrollToIndex(index) {
-      carousel.scrollTo({
-        left: itemWidth * index,
-        behavior: 'smooth'
-      });
+    // Set duration when metadata is loaded
+    player.addEventListener('loadedmetadata', function() {
+        durationEl.textContent = formatTime(player.duration);
+    });
+
+    // Update time immediately when audio can play
+    player.addEventListener('canplay', function() {
+        updateProgress();
+    });
+
+    // Play/pause toggle
+    function togglePlayPause() {
+        if (player.paused) {
+            player.play()
+                .then(() => {
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Playback failed:', error);
+                    // Show error to user if needed
+                    alert('La lecture a échoué : ' + error.message);
+                });
+        } else {
+            player.pause();
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+        }
     }
 
-    // Mise à jour auto des dots au scroll manuel
-    let scrollTimeout;
-    carousel.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const scrollLeft = carousel.scrollLeft;
-        currentIndex = Math.round(scrollLeft / itemWidth);
-        updateDots();
-      }, 100);
+    playBtn.addEventListener('click', togglePlayPause);
+    
+    // Also allow clicking directly on the audio element
+    player.addEventListener('click', togglePlayPause);
+
+    // Update progress continuously
+    player.addEventListener('timeupdate', updateProgress);
+
+    // Seek when progress bar is clicked
+    progressBar.addEventListener('input', function() {
+        const seekTime = (player.duration / 100) * progressBar.value;
+        player.currentTime = seekTime;
     });
 
-    // Initialisation
-    updateDots();
-  })();
-</script>
-<script>
-  // Exemple simple pour contrôler que seul un audio joue à la fois
-  const audios = document.querySelectorAll('audio');
-  audios.forEach(audio => {
-    audio.addEventListener('play', () => {
-      audios.forEach(otherAudio => {
-        if(otherAudio !== audio){
-          otherAudio.pause();
+    // Volume control
+    volumeControl.addEventListener('input', function() {
+        player.volume = volumeControl.value;
+        if (player.volume > 0) {
+            volumeOn.classList.remove('hidden');
+            volumeOff.classList.add('hidden');
+            player.muted = false;
         }
-      });
     });
-  });
+
+    // Mute toggle
+    muteBtn.addEventListener('click', function() {
+        player.muted = !player.muted;
+        if (player.muted) {
+            volumeOn.classList.add('hidden');
+            volumeOff.classList.remove('hidden');
+        } else {
+            volumeOn.classList.remove('hidden');
+            volumeOff.classList.add('hidden');
+        }
+    });
+
+    // Skip forward 15 seconds
+    skipForward.addEventListener('click', function() {
+        player.currentTime = Math.min(player.currentTime + 15, player.duration);
+    });
+
+    // Skip backward 15 seconds
+    skipBackward.addEventListener('click', function() {
+        player.currentTime = Math.max(player.currentTime - 15, 0);
+    });
+
+    // Playback speed control
+    const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    let currentSpeedIndex = 2; // Default 1x
+
+    speedBtn.addEventListener('click', function() {
+        currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
+        const newSpeed = speeds[currentSpeedIndex];
+        player.playbackRate = newSpeed;
+        speedBtn.textContent = newSpeed + 'x';
+    });
+
+    // Share panel toggle
+    shareBtn.addEventListener('click', function() {
+        sharePanel.classList.toggle('hidden');
+    });
+
+    // Copy URL to clipboard (modern approach)
+    copyUrlBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(shareUrl.value)
+            .then(() => {
+                const originalText = copyUrlBtn.textContent;
+                copyUrlBtn.textContent = 'Copié!';
+                setTimeout(() => {
+                    copyUrlBtn.textContent = originalText;
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    });
+
+    // Initialize player
+    initPlayer();
+});
 </script>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Audio;
 use App\Form\AudioForm;
 use App\Repository\AudioRepository;
+use App\Service\FormErrorLogger;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use getID3;
@@ -21,7 +22,7 @@ final class AudioController extends AbstractController
     public function index(AudioRepository $audioRepository, Request $request): Response
     {
 
-        $page = $request->query->getInt('page', 1); // Récupère le numéro de page depuis l'URL
+        $page = $request->query->getInt('page', 1); 
         
         $audio = $audioRepository->findAllPaginated($page);
         return $this->render('admin/audio/index.html.twig', [
@@ -30,13 +31,13 @@ final class AudioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_audio_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FormErrorLogger $formErrorLogger): Response
     {
         $audio = new Audio();
         $form = $this->createForm(AudioForm::class, $audio);
         $form->handleRequest($request);
         $audioFile = $audio->getAudioFile();
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {;
             if ($audioFile instanceof UploadedFile) {
             $getID3 = new getID3();
             $fileInfo = $getID3->analyze($audioFile->getPathname());
@@ -51,6 +52,7 @@ final class AudioController extends AbstractController
             $audio->setPublishedAt(new DateTimeImmutable());
             $audio->setSlug($this->generateSlug($audio->getTitle()));
             $audio->setAuthor($this->getUser());
+            
             $entityManager->persist($audio);
             $entityManager->flush();
 
