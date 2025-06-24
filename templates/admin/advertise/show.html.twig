@@ -1,0 +1,54 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}{{ adverise.title }}{% endblock %}
+
+{% block in_body %}
+    <h1>Advertise</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ advertise.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ advertise.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ advertise.description }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ advertise.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ advertise.email }}</td>
+            </tr>
+            <tr>
+                <th>ImageUrl</th>
+                <td>{{ advertise.imageUrl }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ advertise.createdAt ? advertise.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ advertise.updatedAt ? advertise.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Company</th>
+                <td>{{ advertise.company }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_advertise_index') }}">back to list</a>
+
+    <a href="{{ path('app_advertise_edit', {'id': advertise.id}) }}">edit</a>
+
+    {{ include('advertise/_delete_form.html.twig') }}
+{% endblock %}

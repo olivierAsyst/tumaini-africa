@@ -78,8 +78,21 @@ final class AudioController extends AbstractController
     {
         $form = $this->createForm(AudioForm::class, $audio);
         $form->handleRequest($request);
-
+        $audioFile = $audio->getAudioFile();
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($audioFile instanceof UploadedFile) {
+            $getID3 = new getID3();
+            $fileInfo = $getID3->analyze($audioFile->getPathname());
+            
+            $duration = $fileInfo['playtime_seconds'] ?? null;
+            $duration_min = $duration = $duration / 60;
+            if ($duration !== null) {
+                $audio->setDuration((int)$duration_min);
+            }
+        }
+            $audio->setUpdatedAt(new DateTimeImmutable());
+            $audio->setSlug($this->generateSlug($audio->getTitle()));
+            $audio->setAuthor($this->getUser());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_audio_index', [], Response::HTTP_SEE_OTHER);

@@ -5,11 +5,9 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,7 +30,7 @@ class ArticleForm extends AbstractType
                 'required'=>false,
                 'attr' =>[
                     'placeholder' => "Contenu de l'article",
-                    'rows'=>15,
+                    'rows'=> 15
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -40,9 +38,8 @@ class ArticleForm extends AbstractType
                     ]),
                     new Length([
                         'min' => 10,
-                        'minMessage' => 'Les contenus de l\'article doit depasse {{ limit }} characteres',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'minMessage' => 'Le contenu doit faire au moins {{ limit }} caractères',
+                        'max' => 20000,
                     ]),
                 ]
             ])

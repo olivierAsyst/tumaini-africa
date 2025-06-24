@@ -23,7 +23,9 @@ class AudioForm extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false
             ])
-            ->add('audioFile', VichFileType::class)
+            ->add('audioFile', VichFileType::class, [
+                'required' => false
+            ])
             ->add('coverFile', VichFileType::class, [
                 'required' => false
             ])

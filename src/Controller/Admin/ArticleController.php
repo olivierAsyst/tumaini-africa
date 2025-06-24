@@ -77,10 +77,13 @@ final class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('imageFile')->getData();
-            if ($imageFile) {}
             $article->setUpdatedAt(new DateTimeImmutable());
+            
+            if ($article->getIsPublished() && !$article->getPublishedAt()) {
+                $article->setPublishedAt(new DateTimeImmutable());
+            }
             $article->setSlug($this->generateSlug($article->getTitle()));
+            $article->setAuthor($this->getUser());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);

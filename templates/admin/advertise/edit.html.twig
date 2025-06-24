@@ -1,0 +1,13 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}Modifier la publicité {{ advertise.title }}{% endblock %}
+
+{% block in_body %}
+    <h1>Modifier la publicité {{ advertise.title }}</h1>
+
+    {{ include('admin/advertise/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_advertise_index') }}">back to list</a>
+
+    {{ include('advertise/_delete_form.html.twig') }}
+{% endblock %}

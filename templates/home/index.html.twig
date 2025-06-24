@@ -3,6 +3,56 @@
 {% block title %}TUMAINI AFRICA NEWS | {{ controller_name }}{% endblock %}
 
 {% block body %}
+<div class="carousel-fixed-container relative max-w-4xl mx-auto my-2 overflow-hidden">
+  <!-- Carousel Slides -->
+  <div id="fixedCarousel" class="carousel-fixed-slides flex w-full">
+    <!-- Item 1 -->
+    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card1.png')">
+      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+        <span class="inline-block bg-violet-800 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+          PUBLICITE
+        </span>
+        <div class="text-white">
+          <h3 class="text-xl font-bold">Promotion Spéciale</h3>
+          <p class="text-sm">Découvrez nos offres exclusives</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card2.png')">
+      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+        <span class="inline-block bg-blue-600 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+          NOUVEAUTÉ
+        </span>
+        <div class="text-white">
+          <h3 class="text-xl font-bold">Nouveaux Produits</h3>
+          <p class="text-sm">Explorez notre dernière collection</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card3.png')">
+      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+        <span class="inline-block bg-orange-600 hover:bg-violet-800 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+          ÉVÉNEMENT
+        </span>
+        <div class="text-white">
+          <h3 class="text-xl font-bold">Événement à Venir</h3>
+          <p class="text-sm">Ne manquez pas notre prochain rendez-vous</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicators -->
+  <div class="flex justify-center mt-4 space-x-2">
+    <button class="carousel-fixed-indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-all" data-index="0"></button>
+    <button class="carousel-fixed-indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-all" data-index="1"></button>
+    <button class="carousel-fixed-indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-all" data-index="2"></button>
+  </div>
+</div>
 <section class="bg-gradient-to-r dark:bg-gray-900">
     <div class="py-2 px-2 mx-auto max-w-screen-xl text-center lg:py-4 lg:px-3">
       <div class="flex gap-5">
@@ -101,14 +151,7 @@
                       PUBLICITE
                 </span>
                 <div class="relative top-0 left-4 right-4 text-white">
-                  {# <h1 class="text-xle font-bold leading-tight hover:text-orange-600 transition-colors duration-300">
-                    <a href="#">Vous Trouverez ici tout ce dont vous avez besoin pour votre garde-robe</a>
-                  </h1> #}
                   <a href="">
-                    {# <span class="inline-block bg-red-500 hover:bg-orange-600 hover:text-white text-xs font-semibold px-1 py-1 rounded-xl mb-2 uppercase">
-                      MAISON D'HABILLEMENT MAMAN NYOTA</br>
-                      Cliquer ici pour nous contacter
-                    </span> #}
                   </a>
                 </div>
               </div>
@@ -204,9 +247,6 @@
 </section>
 <section class="bg-gradient-to-r dark:bg-gray-900 p-5">
     <div class="flex text-left gap-5 max-w-screen-xl lg:py-8 lg:pt-2 lg:px-3 mx-auto">
-      <div class="flex-1 rounded-2xl">
-        <img src="https://themewagon.github.io/news/assets/img/gallery/body_card2.png" alt="" srcset="">
-      </div>
       <div class="flex-2 bg-white rounded-xl">
         <div class="max-w-5xl mx-auto overflow-auto">
           <h4 class="text-xl font-bold p-4 text-">Les plus visités cette semaine</h4>
@@ -276,6 +316,75 @@
 </section>
 {% endblock %}
 {% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.getElementById('fixedCarousel');
+  const items = document.querySelectorAll('.carousel-fixed-item');
+  const indicators = document.querySelectorAll('.carousel-fixed-indicator');
+  
+  let currentIndex = 0;
+  const itemCount = items.length;
+  
+  // Initialize carousel width
+  function initCarousel() {
+    const itemWidth = carousel.clientWidth;
+    items.forEach(item => {
+      item.style.width = `${itemWidth}px`;
+    });
+    carousel.style.width = `${itemWidth * itemCount}px`;
+  }
+  
+  // Update carousel position
+  function updateCarousel() {
+    const itemWidth = carousel.clientWidth / itemCount;
+    const offset = -currentIndex * itemWidth;
+    carousel.style.transform = `translateX(${offset}px)`;
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+      if (index === currentIndex) {
+        indicator.classList.add('bg-gray-600', 'w-3');
+        indicator.classList.remove('bg-gray-300', 'w-2');
+      } else {
+        indicator.classList.remove('bg-gray-600', 'w-3');
+        indicator.classList.add('bg-gray-300', 'w-2');
+      }
+    });
+  }
+  
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % itemCount;
+    updateCarousel();
+  }
+  
+  // Auto-rotate every 5 seconds
+  let autoSlide = setInterval(nextSlide, 5000);
+  
+  function resetAutoSlide() {
+    clearInterval(autoSlide);
+    autoSlide = setInterval(nextSlide, 5000);
+  }
+  
+  indicators.forEach(indicator => {
+    indicator.addEventListener('click', () => {
+      currentIndex = parseInt(indicator.getAttribute('data-index'));
+      updateCarousel();
+      resetAutoSlide();
+    });
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    initCarousel();
+    updateCarousel();
+  });
+  
+  // Initialize
+  initCarousel();
+  updateCarousel();
+});
+</script>
+
 <script>
   const wrapper = document.getElementById('carousel-wrapper');
   const slides = wrapper.children;
@@ -522,4 +631,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initPlayer();
 });
 </script>
+
 {% endblock %}
