@@ -45,6 +45,9 @@ class Advertise
     #[ORM\Column(length: 255)]
     private ?string $company = null;
 
+    #[ORM\Column]
+    private ?bool $isMiddle = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +160,18 @@ class Advertise
         public function setCompany(string $company): static
         {
             $this->company = $company;
+
+            return $this;
+        }
+
+        public function isMiddle(): ?bool
+        {
+            return $this->isMiddle;
+        }
+
+        public function setIsMiddle(bool $isMiddle): static
+        {
+            $this->isMiddle = $isMiddle;
 
             return $this;
         }

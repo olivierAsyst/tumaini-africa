@@ -3,49 +3,78 @@
 {% block title %}TUMAINI AFRICA NEWS | {{ controller_name }}{% endblock %}
 
 {% block body %}
-<div class="carousel-fixed-container relative max-w-4xl mx-auto my-2 overflow-hidden">
-  <!-- Carousel Slides -->
+{# <div class="carousel-fixed-container relative max-w-4xl mx-auto my-2 overflow-hidden">
   <div id="fixedCarousel" class="carousel-fixed-slides flex w-full">
-    <!-- Item 1 -->
-    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card1.png')">
-      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
-        <span class="inline-block bg-violet-800 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
-          PUBLICITE
-        </span>
-        <div class="text-white">
-          <h3 class="text-xl font-bold">Promotion Spéciale</h3>
-          <p class="text-sm">Découvrez nos offres exclusives</p>
+    {% for i in 0..2 %}
+      {% if i < advertises_count %}
+        <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('{{ vich_uploader_asset(last_advertise[i], 'imageFile') ? asset(vich_uploader_asset(last_advertise[i], 'imageFile')) : asset('images/static/default.png') }}')">
+          <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+            <span class="inline-block bg-violet-800 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+              PUBLICITE
+            </span>
+            <div class="text-white">
+              <h3 class="text-xl font-bold">{{ last_advertise[i].title }}</h3>
+              <div class="flex gap-2">
+                <p class="text-sm">{{ last_advertise[i].phoneNumber ? last_advertise[i].phoneNumber : ''  }}</p>
+                <p class="text-sm">{{ last_advertise[i].email ? last_advertise[i].email : ''  }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% else %}
+      <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-full md:h-[250px] bg-cover bg-center" style="background-image: url('asset('images/static/default.png')')">
+        <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+          <span class="inline-block bg-blue-600 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+            TUMAINI AFRICA NEWS
+          </span>
+          <div class="text-white">
+            <h3 class="text-xl font-bold">Aucune publicité disponible</h3>
+            <p class="text-sm">...</p>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Item 2 -->
-    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card2.png')">
-      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
-        <span class="inline-block bg-blue-600 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
-          NOUVEAUTÉ
-        </span>
-        <div class="text-white">
-          <h3 class="text-xl font-bold">Nouveaux Produits</h3>
-          <p class="text-sm">Explorez notre dernière collection</p>
-        </div>
+    {% endif %}
+    {% endfor %}
+  </div> #}
+<div class="carousel-fixed-container relative max-w-4xl mx-auto my-2 overflow-hidden">
+  <div id="fixedCarousel" class="carousel-fixed-slides flex w-full">    
+    {% for i in 0..2 %}
+      <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px]">
+        {% if i < advertises_count and last_advertise[i] %}
+          {% set imageUrl = vich_uploader_asset(last_advertise[i], 'imageFile') %}
+          <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ imageUrl ? asset(imageUrl) : asset('images/static/default.png') }}')">
+            <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
+              <span class="inline-block bg-violet-800 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
+                PUBLICITE
+              </span>
+              <div class="text-white">
+                <p class="text-sm font-bold">{{ last_advertise[i].company ? last_advertise[i].company : '' }}</p>
+                <h3 class="text-xl font-bold"> <a href="">{{ last_advertise[i].title }}</a></h3>
+                <div class="flex gap-2 flex-wrap">
+                  {% if last_advertise[i].phoneNumber %}
+                    <p class="text-sm">{{ last_advertise[i].phoneNumber }}</p>
+                  {% endif %}
+                  {% if last_advertise[i].email %}
+                    <p class="text-sm">{{ last_advertise[i].email }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+            <div class="text-center p-4">
+              <h3>TUMAINI AFRICA NEWS</h3>
+              <p class="text-gray-500">Aucune publicité disponible</p>
+              {% if i < advertises_count and last_advertise[i] %}
+                <p class="text-sm text-gray-400">(Cette annonce n'a pas d'image)</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
       </div>
-    </div>
-
-    <!-- Item 3 -->
-    <div class="rounded carousel-fixed-item flex-shrink-0 w-full h-[200px] md:h-[250px] bg-cover bg-center" style="background-image: url('https://themewagon.github.io/news/assets/img/gallery/body_card3.png')">
-      <div class="w-full h-full p-4 bg-black bg-opacity-30 flex flex-col justify-between">
-        <span class="inline-block bg-orange-600 hover:bg-violet-800 text-white text-xs font-semibold px-3 py-1 rounded-xl uppercase transition-colors duration-300 self-start">
-          ÉVÉNEMENT
-        </span>
-        <div class="text-white">
-          <h3 class="text-xl font-bold">Événement à Venir</h3>
-          <p class="text-sm">Ne manquez pas notre prochain rendez-vous</p>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
-
   <!-- Indicators -->
   <div class="flex justify-center mt-4 space-x-2">
     <button class="carousel-fixed-indicator w-2 h-2 rounded-full bg-gray-300 hover:bg-gray-400 transition-all" data-index="0"></button>

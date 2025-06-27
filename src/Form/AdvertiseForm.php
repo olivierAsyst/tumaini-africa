@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Advertise;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -19,6 +20,10 @@ class AdvertiseForm extends AbstractType
             ->add('phoneNumber')
             ->add('email')
             ->add('description')
+            ->add('isMiddle', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Est-ce une annonce intermédiaire ?',
+            ])
             ->add('imageFile', VichFileType::class, [
                 "required" => false,
                 'constraints' => [

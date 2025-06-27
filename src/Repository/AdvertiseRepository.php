@@ -16,6 +16,16 @@ class AdvertiseRepository extends ServiceEntityRepository
         parent::__construct($registry, Advertise::class);
     }
 
+    public function findLastThreeWhereIsMiddleFalseOrNull(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.isMiddle = false OR a.isMiddle IS NULL')
+            ->orderBy('a.createdAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Advertise[] Returns an array of Advertise objects
     //     */

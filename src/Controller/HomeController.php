@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\AdvertiseRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,7 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(ArticleRepository $articleRepo, 
         CategoryRepository $categoryRepository,
+        AdvertiseRepository $advertiseRepository,
         Request $request): Response
     {
         $last_urgent_articles = $articleRepo->findThreeLatestUrgent();
@@ -40,6 +42,7 @@ final class HomeController extends AbstractController
         $trending = $articleRepo->findMostViewedArticles(10);
         $firstViewed = $mostViewed[0];
         // $trending = $articleRepo->findTrendingArticles();
+        $last_advertise = $advertiseRepository->findLastThreeWhereIsMiddleFalseOrNull();
         $nonUrgentLastThree = $articleRepo->findThreeLatestNonUrgentArticles();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'Acceuil !',
@@ -52,7 +55,9 @@ final class HomeController extends AbstractController
             'category_articles' => $categoryArticles,
             'first_viewed' => $firstViewed,
             'most_viewed' => $mostViewed,
-            'trending' => $trending
+            'trending' => $trending,
+            'last_advertise' => $last_advertise,
+            'advertises_count'=> count($last_advertise)
         ]);
     }
 
