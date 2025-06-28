@@ -47,7 +47,7 @@ class ArticleForm extends AbstractType
                 "required" => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '2M',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
@@ -55,6 +55,24 @@ class ArticleForm extends AbstractType
                             'image/svg+xml',
                         ],
                         'mimeTypesMessage' => 'Veuillez uploader une image valide (JPEG, PNG, GIF ou SVG)',
+                    ])
+                ]
+            ])
+            ->add('emissionFile', VichFileType::class,  [
+                "required" => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => [
+                            'audio/mpeg',
+                            'audio/ogg',
+                            'audio/wav',
+                            'audio/x-wav',
+                            'audio/webm',
+                            'audio/aac',
+                            'audio/mp3'
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader un fichier audio valide (MP3, OGG, WAV, AAC ou WEBM)',
                     ])
                 ]
             ])

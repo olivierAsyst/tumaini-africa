@@ -14,7 +14,7 @@
             </div>
             
             <!-- News Carousel -->
-            {% include 'catery_publi/components/carousel.html.twig' with {'items': lastNewsInCategory} %}
+            {% include 'catery_publi/components/carousel.html.twig' with {'items': latestArticles} %}
             <div class="articles-list flex w-full flex-wrap gap-5">
     {% for article in other_articles %}
         <article class="flex-1 article-card group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">

@@ -26,6 +26,14 @@
                     <div class="sm:col-span-2">
                         {{ form_widget(form.content)}}
                     </div>
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.emissionFile, 'Charger l\'Emission', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                        {{ form_widget(form.emissionFile, {'attr': {'class': 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'}}) }}
+                        <div class="mt-1 text-sm text-red-600 dark:text-red-500">
+                            {{ form_errors(form.emissionFile) }}
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">MP3, WAV, OGG (MAX. 50MB)</p>
+                    </div>
                     <div class="sm:col-span-2 flex items-center justify-center w-full flex-col overflow-hidden">
                       <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image de l'Article</span>
                       <div class="flex justify-center items-center w-full">

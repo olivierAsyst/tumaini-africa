@@ -5,6 +5,9 @@ namespace App\Form;
 use App\Entity\Advertise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -15,11 +18,11 @@ class AdvertiseForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('company')
-            ->add('title')
-            ->add('phoneNumber')
-            ->add('email')
-            ->add('description')
+            ->add('company', TextType::class)
+            ->add('title', TextType::class)
+            ->add('phoneNumber', TextType::class)
+            ->add('email', EmailType::class)
+            ->add('description', TextareaType::class)
             ->add('isMiddle', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Est-ce une annonce intermédiaire ?',
@@ -28,7 +31,7 @@ class AdvertiseForm extends AbstractType
                 "required" => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '2M',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

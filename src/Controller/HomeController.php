@@ -39,10 +39,11 @@ final class HomeController extends AbstractController
         }
 
         $mostViewed = $articleRepo->findMostViewedArticles();
-        $trending = $articleRepo->findMostViewedArticles(10);
+        // $trending = $articleRepo->findMostViewedArticles(10);
         $firstViewed = $mostViewed[0];
-        // $trending = $articleRepo->findTrendingArticles();
+        $trending = $articleRepo->findTrendingArticles();
         $last_advertise = $advertiseRepository->findLastThreeWhereIsMiddleFalseOrNull();
+        $last_advertise_middle = $advertiseRepository->findLastMiddleAdvertise();
         $nonUrgentLastThree = $articleRepo->findThreeLatestNonUrgentArticles();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'Acceuil !',
@@ -57,7 +58,8 @@ final class HomeController extends AbstractController
             'most_viewed' => $mostViewed,
             'trending' => $trending,
             'last_advertise' => $last_advertise,
-            'advertises_count'=> count($last_advertise)
+            'advertises_count'=> count($last_advertise),
+            'middle_advertise' => $last_advertise_middle
         ]);
     }
 

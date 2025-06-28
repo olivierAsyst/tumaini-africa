@@ -13,9 +13,12 @@ final class AboutController extends AbstractController
     {
         $teamMembers = [
             [
-                'name' => 'Christian Matou',
-                'role' => 'Animateur et journaliste',
-                'bio' => '15 ans d\'expérience en développement Symfony. Passionné par l\'architecture logicielle et les bonnes pratiques.',
+                'name' => 'Matumabiri Masumbuko Matou ',
+                'role' => ' Journaliste- blogueur',
+                'bio' => 'Journaliste reporter au sein de la radio le messager du peuple d\'Uvira pendant 5 ans. </br>
+                            Directeur Général  de Tumanini Africa News  depuis sa création jusqu\'aujourd\'hui.</br>
+                            Jouranliste reporter e au sien de média en ligne Tumaini Africa News. </br>
+                            Correspondant de plusieurs medias nationaux et internationaux dont  la radio ISDR - Bukavu .',
                 'avatar' => 'https://randomuser.me/api/portraits/men/32.jpg',
                 'social' => ['twitter', 'github', 'linkedin']
             ],
@@ -29,7 +32,8 @@ final class AboutController extends AbstractController
             [
                 'name' => 'Olivier Rukabo',
                 'role' => 'Développeur Full-Stack',
-                'bio' => 'Expert en JavaScript moderne et intégration frontend. Aime créer des interfaces fluides et réactives.',
+                'bio' => 'Developeur professionnel des applications web, mobile moderne. Utilise, Java (Spring boot), Php (Symfony), Javascript (Vue.js). </br>
+                            +243999644524',
                 'avatar' => 'https://randomuser.me/api/portraits/men/67.jpg',
                 'social' => ['github', 'codepen', 'twitter']
             ]

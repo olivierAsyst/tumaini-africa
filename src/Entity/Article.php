@@ -70,6 +70,13 @@ class Article
     #[ORM\Column(options: ["default" => 0])]
     private ?int $viewCount = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $emissionUrl = null;
+
+    #[Vich\UploadableField(mapping: 'emission', fileNameProperty: 'emissionUrl')]
+    #[Assert\File()]
+    private ?File $emissionFile = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -280,6 +287,34 @@ class Article
     public function setViewCount(int $viewCount): static
     {
         $this->viewCount = $viewCount;
+
+        return $this;
+    }
+
+    public function getEmissionUrl(): ?string
+    {
+        return $this->emissionUrl;
+    }
+
+    public function setEmissionUrl(?string $emissionUrl): static
+    {
+        $this->emissionUrl = $emissionUrl;
+
+        return $this;
+    }
+
+    public function getEmissionFile(): ?File
+    {
+        return $this->emissionFile;
+    }
+
+    public function setEmissionFile(?File $emissionFile): static
+    {
+        $this->emissionFile = $emissionFile;
+
+        if (null !== $emissionFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }

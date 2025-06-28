@@ -26,6 +26,16 @@ class AdvertiseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findLastMiddleAdvertise(): ?Advertise
+    {
+    return $this->createQueryBuilder('a')
+        ->where('a.isMiddle = true')
+        ->orderBy('a.createdAt', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Advertise[] Returns an array of Advertise objects
     //     */
