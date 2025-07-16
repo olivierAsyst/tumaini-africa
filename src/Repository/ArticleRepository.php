@@ -146,59 +146,8 @@ public function getPaginatedArticles(string $slug, PaginatorInterface $paginator
     );
 }
 
-// public function findMostViewedArticles(int $limit = 5): array
-// {
-//     return $this->createQueryBuilder('a')
-//         ->where('a.isPublished = true')
-//         ->orderBy('a.viewCount', 'DESC')
-//         ->setMaxResults($limit)
-//         ->getQuery()
-//         ->getResult();
-// }
 
-// public function findMostViewedArticles(int $limit = 5): array
-// {
-//     $dateLimit = new \DateTime();
-//     $dateLimit->modify('-48 hours');
 
-//     return $this->createQueryBuilder('a')
-//         ->where('a.isPublished = true')
-//         ->andWhere('a.publishedAt >= :dateLimit')
-//         ->setParameter('dateLimit', $dateLimit)
-//         ->orderBy('a.viewCount', 'DESC')
-//         ->setMaxResults($limit)
-//         ->getQuery()
-//         ->getResult();
-// }
-
-// public function findMostViewedArticles(int $limit = 5): array
-// {
-//     $dateLimit = new \DateTime();
-//     $dateLimit->modify('-48 hours');
-
-//     // D'abord essayer de trouver les articles récents (48h) les plus vus
-//     $recentArticles = $this->createQueryBuilder('a')
-//         ->where('a.isPublished = true')
-//         ->andWhere('a.publishedAt >= :dateLimit')
-//         ->setParameter('dateLimit', $dateLimit)
-//         ->orderBy('a.viewCount', 'DESC')
-//         ->setMaxResults($limit)
-//         ->getQuery()
-//         ->getResult();
-
-//     // Si on a des résultats, on les retourne
-//     if (count($recentArticles) > 0) {
-//         return $recentArticles;
-//     }
-
-//     // Sinon, retourner les articles les plus vus sans contrainte de temps
-//     return $this->createQueryBuilder('a')
-//         ->where('a.isPublished = true')
-//         ->orderBy('a.viewCount', 'DESC')
-//         ->setMaxResults($limit)
-//         ->getQuery()
-//         ->getResult();
-// }
 public function findMostViewedArticles(int $limit = 5): array
 {
     $qb = $this->createQueryBuilder('a')
@@ -223,9 +172,10 @@ public function findTrendingArticles(int $limit = 10): array
 {
     return $this->createQueryBuilder('a')
         ->where('a.isPublished = true')
-        ->andWhere('a.publishedAt >= :date')
+        ->andWhere('a.publishedAt IS NOT NULL')
+        ->orderBy('CASE WHEN a.publishedAt >= :date THEN a.viewCount ELSE 0 END', 'DESC')
+        ->addOrderBy('a.publishedAt', 'DESC')
         ->setParameter('date', new DateTime('-1 week'))
-        ->orderBy('a.viewCount', 'DESC')
         ->setMaxResults($limit)
         ->getQuery()
         ->getResult();

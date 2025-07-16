@@ -12,8 +12,8 @@ final class ContactController extends AbstractController
     public function index(): Response
     {
         $contactInfo = [
-            'email' => 'tumainiafricanews@gmail.com',
-            'phone' => '+243 999 644 524',
+            'email' => 'mwanadamutumaini@gmail.com',
+            'phone' => '+243 97 48 21 55',
             'address' => 'Q. Mulongwe Uvira, RDC',
             'social' => [
                 'twitter' => 'https://twitter.com/dev_community',

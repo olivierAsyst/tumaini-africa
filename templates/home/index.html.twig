@@ -451,9 +451,6 @@
 <script>
 // Fonction pour afficher la modal avec les données
 function showAdvertiseModal(advertiseId) {
-    // Ici vous devrez faire un appel AJAX ou avoir préchargé les données
-    // Pour l'exemple, je suppose que vous avez accès à un objet 'advertisesData'
-    
     // Trouver la publicité correspondante
     const advertise = advertisesData.find(a => a.id === advertiseId);
     
@@ -552,11 +549,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Auto-rotate every 5 seconds
-  let autoSlide = setInterval(nextSlide, 5000);
+  let autoSlide = setInterval(nextSlide, 10000);
   
   function resetAutoSlide() {
     clearInterval(autoSlide);
-    autoSlide = setInterval(nextSlide, 5000);
+    autoSlide = setInterval(nextSlide, 10000);
   }
   
   indicators.forEach(indicator => {

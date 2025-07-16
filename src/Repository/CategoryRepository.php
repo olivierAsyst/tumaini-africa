@@ -16,7 +16,7 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function findTopCategoriesWithMostArticles(int $limit = 5): array
+    public function findTopCategoriesWithMostArticles(int $limit = 7): array
     {
         return $this->createQueryBuilder('c')
             ->select('c', 'COUNT(a.id) as articleCount')
@@ -28,44 +28,6 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    /*public function findTopCategoriesWithMostArticles(int $limit = 6, $articlesPerCategory = 4): array{
-        
-    // Récupère les catégories les plus populaires
-        $categories = $this->createQueryBuilder('c')
-            ->select('c', 'COUNT(a.id) as articleCount')
-            ->leftJoin('c.articles', 'a', 'WITH', 'a.isPublished = true')
-            ->groupBy('c.id')
-            ->orderBy('articleCount', 'DESC')
-            ->addOrderBy('c.name', 'ASC')
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
-
-        // Pour chaque catégorie, charge les articles récents
-        $results = [];
-        foreach ($categories as $category) {
-            $categoryEntity = $category[0];
-            $recentArticles = $this->getEntityManager()
-                ->getRepository('App\Entity\Article')
-                ->createQueryBuilder('a')
-                ->where('a.category = :category')
-                ->andWhere('a.isPublished = true')
-                ->setParameter('category', $categoryEntity)
-                ->orderBy('a.publishedAt', 'DESC')
-                ->setMaxResults($articlesPerCategory)
-                ->getQuery()
-                ->getResult();
-
-            $results[] = [
-                'category' => $categoryEntity,
-                'articleCount' => $category['articleCount'],
-                'recentArticles' => $recentArticles
-            ];
-        }
-
-        return $results;
-    }*/
 
     //    /**
     //     * @return Category[] Returns an array of Category objects
