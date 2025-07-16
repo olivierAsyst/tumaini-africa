@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Entity\User;
 use App\Repository\AdvertiseRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -20,7 +25,7 @@ final class HomeController extends AbstractController
         Request $request): Response
     {
         $last_urgent_articles = $articleRepo->findThreeLatestUrgent();
-        $categoriesResult = $categoryRepository->findTopCategoriesWithMostArticles(5);
+        $categoriesResult = $categoryRepository->findTopCategoriesWithMostArticles(7);
         $categories = array_map(function($item){
             return $item[0];
         }, $categoriesResult);
@@ -39,7 +44,6 @@ final class HomeController extends AbstractController
         }
 
         $mostViewed = $articleRepo->findMostViewedArticles();
-        // $trending = $articleRepo->findMostViewedArticles(10);
         $firstViewed = $mostViewed[0];
         $trending = $articleRepo->findTrendingArticles();
         $last_advertise = $advertiseRepository->findLastThreeWhereIsMiddleFalseOrNull();
