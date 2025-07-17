@@ -11,7 +11,6 @@
   RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/.+$
   RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
   
-  RewriteRule ^(.*)$ index.php [QSA,L]
   RewriteRule ^.well-known/acme-challenge - [L]
 
   # redirect to no-www
